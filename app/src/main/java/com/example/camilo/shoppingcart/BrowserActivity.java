@@ -10,7 +10,7 @@ import android.view.MenuItem;
 /**
  * Created by Camilo on 4/18/2016.
  */
-public class Browser extends AppCompatActivity {
+public class BrowserActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +33,7 @@ public class Browser extends AppCompatActivity {
 
                 return true;
             case R.id.action_logout:
-                startActivity(new Intent(Browser.this, Login.class));
+                startActivity(new Intent(BrowserActivity.this, LoginActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

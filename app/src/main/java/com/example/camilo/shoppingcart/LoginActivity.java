@@ -9,7 +9,7 @@ import android.widget.Button;
 /**
  * Created by Camilo on 4/18/2016.
  */
-public class Login extends AppCompatActivity{
+public class LoginActivity extends AppCompatActivity{
 
     private Button button;
 
@@ -23,6 +23,6 @@ public class Login extends AppCompatActivity{
 
     public void login(View v){
 
-        startActivity(new Intent(Login.this, Browser.class));
+        startActivity(new Intent(LoginActivity.this, BrowserActivity.class));
     }
 }

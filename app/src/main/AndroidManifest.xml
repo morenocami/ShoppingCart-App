@@ -12,7 +12,7 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:replace="android:icon,android:theme">
 
-        <activity android:name=".Login"
+        <activity android:name=".LoginActivity"
             android:screenOrientation="portrait">
         <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Browser"
+        <activity android:name=".BrowserActivity"
             android:label="Browse"
             android:screenOrientation="portrait">
 
