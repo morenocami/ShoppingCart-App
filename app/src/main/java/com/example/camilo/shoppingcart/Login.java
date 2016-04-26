@@ -11,18 +11,18 @@ import android.widget.Button;
  */
 public class Login extends AppCompatActivity{
 
-    Button button;
+    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
 
-        //button =(Button) findViewById(R.id.button);
+
     }
 
-    public void clicked(View v){
-        Intent i = new Intent(Login.this, Browser.class);
-        startActivity(i);
+    public void login(View v){
+
+        startActivity(new Intent(Login.this, Browser.class));
     }
 }
