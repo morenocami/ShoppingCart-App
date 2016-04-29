@@ -2,16 +2,31 @@ package com.example.camilo.shoppingcart;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.ListIterator;
 
 /**
  * Created by Camilo on 4/25/2016.
  */
-public class User implements Serializable{
+public abstract class User implements Serializable{
 
-    private User(String username, String password){
+    public User(String username, String password, boolean isSeller){
         this.username=username;
         this.password=password;
-        savedCart = new ArrayList<>();
+        this.isSeller = isSeller;
+        myItems = new ArrayList<>();
+    }
+
+    public boolean checkUsername(String username){
+        return username.equals(this.username);
+    }
+
+    public boolean checkPassword(String password){
+        return password.equals(this.password);
+    }
+
+    public ListIterator getIterator(){
+        return myItems.listIterator();
     }
 
     public void login(){
@@ -21,10 +36,11 @@ public class User implements Serializable{
 
     private void restoreCart(){
 
-        savedCart = new ArrayList<>(); //retrieve from storage (physical/cloud)
+        myItems = new ArrayList<>(); //retrieve from storage (physical/cloud)
     }
 
     private String username;
     private String password;
-    private ArrayList<Product> savedCart;
+    private boolean isSeller;
+    private ArrayList<Product> myItems;
 }

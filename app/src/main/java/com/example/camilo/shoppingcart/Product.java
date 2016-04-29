@@ -7,8 +7,18 @@ import android.media.Image;
  */
 public class Product implements Comparable {
 
-    Product(){
+    Product(String name, double sellPrice, int imageResource){
+        this.name=name;
+        this.sellPrice=sellPrice;
+        this.imageResource = imageResource;
+    }
 
+    public void decrementQuantity(){
+        qty--;
+    }
+
+    public void incrementQuantity(){
+        qty++;
     }
 
     @Override
@@ -17,11 +27,12 @@ public class Product implements Comparable {
         return 0;
     }
 
-    private int id;
+    private int qty;
     private String name;
     private String description;
+    private String seller;
     private double sellPrice;
     private double cost;
-    private Image productPhoto;
+    private int imageResource;
 
 }
