@@ -22,13 +22,13 @@
 
         </activity>
 
-        <activity android:name=".CustomerBrowserActivity"
+        <activity android:name=".CustomerActivity"
             android:label="Browse"
             android:screenOrientation="portrait">
 
         </activity>
 
-        <activity android:name=".ReviewCartActivity"
+        <activity android:name=".CartActivity"
             android:label="Review Cart"
             android:screenOrientation="portrait">
 
@@ -40,13 +40,13 @@
 
         </activity>
 
-        <!--<activity android:name=".ReviewCartActivity"-->
+        <!--<activity android:name=".Account"-->
             <!--android:label="Review Cart"-->
             <!--android:screenOrientation="portrait">-->
 
         <!--</activity>-->
 
-        <!--<activity android:name=".ReviewCartActivity"-->
+        <!--<activity android:name=".SellerActivity"-->
             <!--android:label="Review Cart"-->
             <!--android:screenOrientation="portrait">-->
 

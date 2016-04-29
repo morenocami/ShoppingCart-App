@@ -1,7 +1,6 @@
 package com.example.camilo.shoppingcart;
 
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
 
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
@@ -37,23 +36,40 @@ public class ShoppingSession extends AppCompatActivity{
     public String getCartSize(){
         return "Items: " + currentUser.getCartSize();
     }
-
     public String getCartTotal(){
         return "$ " + String.format("%.2f", currentUser.getCartTotal());
     }
 
-    public boolean addToCart(String name){
+    public boolean addProduct(String name){
         for(Product p : inventory){
             if(p.getName().equals(name)) {
-                currentUser.addToCart(p);
-                return true;
+                if(p.decrementfromInventory()){
+                    currentUser.addToCart(p);
+                    return true;
+                }
             }
         }
         return false;
     }
+    public boolean removeProduct(String name){
+        for(Product p : inventory){
+            if(p.getName().equals(name)) {
+                if(currentUser.removeFromCart(name)){
+                    p.incrementQuantity();
+                    return true;
+                }
+            }
+        }
+        return true;
+    }
 
     public void userLogin(User user){
         currentUser = user;
+    }
+    public void userLogout(){
+        currentUser=null;
+        inventory=null;
+        instance=null;
     }
 
     public static ShoppingSession getInstance(){
@@ -62,8 +78,12 @@ public class ShoppingSession extends AppCompatActivity{
         return instance;
     }
 
-    public Iterator getIterator(){
+    public Iterator getInventoryIterator(){
         return inventory.iterator();
+    }
+
+    public Iterator getCartIterator(){
+        return currentUser.getIterator();
     }
 
     private ArrayList<Product> inventory;

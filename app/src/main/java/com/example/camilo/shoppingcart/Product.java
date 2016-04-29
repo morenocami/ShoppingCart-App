@@ -36,10 +36,19 @@ public class Product implements Comparable {
         return imageResource;
     }
 
-    public void decrementQuantity(){
-        qty--;
-    }
 
+    public boolean decrementfromInventory(){
+        if(qty==0)
+            return false;
+        qty--;
+        return true;
+    }
+    public boolean decrementfromCart(){
+        if(qty==1)
+            return false;
+        qty--;
+        return true;
+    }
     public void incrementQuantity(){
         qty++;
     }
@@ -47,6 +56,11 @@ public class Product implements Comparable {
     @Override
     public int compareTo(Object other) {
         return 0;
+    }
+
+    @Override
+    protected Object clone() {
+        return new Product(this.name, this.sellPrice, this.imageResource, 1);
     }
 
     private int qty;

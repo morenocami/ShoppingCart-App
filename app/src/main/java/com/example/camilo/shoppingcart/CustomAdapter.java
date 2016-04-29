@@ -3,6 +3,7 @@ package com.example.camilo.shoppingcart;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.database.DataSetObserver;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 /**
  * Created by Camilo on 4/28/2016.
@@ -29,6 +31,11 @@ public class CustomAdapter extends BaseAdapter implements View.OnClickListener {
         this.resources = resources;
 
         inflater = ( LayoutInflater ) this.activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
+    public void updateList(ArrayList<ListItemModel> newList){
+        list = newList;
+        notifyDataSetChanged();
     }
 
     public int getCount() {
@@ -73,7 +80,7 @@ public class CustomAdapter extends BaseAdapter implements View.OnClickListener {
             holder.price =(TextView)vi.findViewById(R.id.list_item_price);
             holder.image=(ImageView)vi.findViewById(R.id.list_item_image);
             holder.qty =(TextView)vi.findViewById(R.id.list_item_qty);
-            holder.adder=(ImageView)vi.findViewById(R.id.list_item_adder);
+            holder.adder=(ImageView)vi.findViewById(R.id.list_item_option);
 
             /************  Set holder with LayoutInflater ************/
             vi.setTag( holder );
@@ -103,7 +110,6 @@ public class CustomAdapter extends BaseAdapter implements View.OnClickListener {
 
             vi.setOnClickListener(new OnItemClickListener(position,false));
             holder.adder.setOnClickListener(new OnItemClickListener(position,true));
-
         }
         return vi;
     }
@@ -125,9 +131,8 @@ public class CustomAdapter extends BaseAdapter implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {
-            final CustomerBrowserActivity sct = (CustomerBrowserActivity) activity;
-
-            /****  Call  onItemClick Method inside CustomerBrowserActivity Class ( See Below )****/
+            final BrowserActivity sct = (BrowserActivity) activity;
+            /****  Call  onItemClick Method inside CustomerActivity Class ( See Below )****/
             sct.onItemClick(mPosition, addRequest);
         }
     }

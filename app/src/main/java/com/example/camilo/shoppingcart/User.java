@@ -2,7 +2,7 @@ package com.example.camilo.shoppingcart;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.ListIterator;
+import java.util.Iterator;
 
 /**
  * Created by Camilo on 4/25/2016.
@@ -24,24 +24,48 @@ public abstract class User implements Serializable{
         return password.equals(this.password);
     }
 
-    public ListIterator getIterator(){
-        return shoppingCart.listIterator();
+    public Iterator getIterator(){
+        return shoppingCart.iterator();
     }
 
-    public void addToCart(Product product){
-        shoppingCart.add(product);
+    public void addToCart(Product newProduct){
+        if(shoppingCart.isEmpty())
+            shoppingCart.add((Product)newProduct.clone());
+        else{
+            for(Product cartItem : shoppingCart){
+                if(newProduct.getName().equals(cartItem.getName())) {
+                    cartItem.incrementQuantity();
+                    return;
+                }
+            }
+            shoppingCart.add((Product)newProduct.clone());
+        }
+    }
+    public boolean removeFromCart(String productToRemove){
+        for(Product cartItem : shoppingCart){
+            if(productToRemove.equals(cartItem.getName())) {
+                if(!cartItem.decrementfromCart()) {
+                    shoppingCart.remove(cartItem);
+                    return true;
+                }
+            }
+        }
+        return true;
     }
 
     public double getCartTotal(){
-        double result=0;
+        double sum=0;
         for (Product p:shoppingCart) {
-            result += p.getSellPrice();
+            sum += (p.getSellPrice()*p.getQty());
         }
-        return result;
+        return sum;
     }
 
     public int getCartSize(){
-        return shoppingCart.size();
+        int count=0;
+        for(Product p : shoppingCart)
+            count+=p.getQty();
+        return count;
     }
 
     private String username;

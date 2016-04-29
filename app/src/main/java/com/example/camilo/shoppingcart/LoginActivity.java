@@ -3,7 +3,6 @@ package com.example.camilo.shoppingcart;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
@@ -83,6 +82,8 @@ public class LoginActivity extends AppCompatActivity{
                 for (User x :users) {
                     if (x.checkUsername(username.getText().toString())) {
                         Toast.makeText(getApplicationContext(), "Username is taken, try another.", Toast.LENGTH_SHORT).show();
+                        button.setEnabled(true);
+                        button.setText("Login");
                         return;
                     }
                 }
@@ -113,7 +114,7 @@ public class LoginActivity extends AppCompatActivity{
                 if(seller.isChecked())
                     startActivity(new Intent(LoginActivity.this, SellerBrowserActivity.class));
                 else
-                    startActivity(new Intent(LoginActivity.this, CustomerBrowserActivity.class));
+                    startActivity(new Intent(LoginActivity.this, CustomerActivity.class));
                 seller.setChecked(false);
             }
             //login attempt; if username is found, check password; if password matches,
@@ -132,7 +133,7 @@ public class LoginActivity extends AppCompatActivity{
                     if(seller.isChecked())
                         startActivity(new Intent(LoginActivity.this, SellerBrowserActivity.class));
                     else
-                        startActivity(new Intent(LoginActivity.this, CustomerBrowserActivity.class));
+                        startActivity(new Intent(LoginActivity.this, CustomerActivity.class));
                     seller.setChecked(false);
                 }
                 else {

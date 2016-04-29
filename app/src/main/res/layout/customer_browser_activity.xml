@@ -57,16 +57,10 @@
 
         </LinearLayout>
 
-        <ScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:id="@+id/browser_scrollView"
-            android:fillViewport="true">
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/browser_listView" />
 
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/browser_listView" />
-        </ScrollView>
     </LinearLayout>
 </RelativeLayout>

@@ -3,10 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_settings"
-        android:icon="@drawable/icon_settings"
+        android:id="@+id/action_cart"
+        android:icon="@drawable/icon_cart"
         android:title="Settings"
         app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_settings"
+        android:title="Settings"
+        app:showAsAction="never"/>
     <item
         android:id="@+id/action_logout"
         android:title="Log Off"
