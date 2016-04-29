@@ -28,8 +28,8 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Items: x"
-                android:id="@+id/textView"
+                android:text="Items: 0"
+                android:id="@+id/browser_textView1"
                 android:layout_weight="1"
                 android:lines="2"
                 android:gravity="left|center"
@@ -41,8 +41,8 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="$xxx.xx"
-                android:id="@+id/textView2"
+                android:text="$0.00"
+                android:id="@+id/browser_textView2"
                 android:layout_weight="1"
                 android:gravity="center|right"
                 android:lines="2"
@@ -50,18 +50,19 @@
                 android:paddingRight="10dp"
                 android:singleLine="false"
                 android:textSize="20dp" />
+
         </LinearLayout>
 
         <ScrollView
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:id="@+id/scrollView"
+            android:id="@+id/browser_scrollView"
             android:fillViewport="true">
 
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/listView" />
+                android:id="@+id/browser_listView" />
         </ScrollView>
     </LinearLayout>
 </RelativeLayout>
