@@ -39,14 +39,6 @@ public class LoginActivity extends AppCompatActivity{
         password = (TextView) findViewById(R.id.login_editText2);
         newUser = (Switch)findViewById(R.id.login_switch1);
         seller = (Switch)findViewById(R.id.login_switch2);
-        password.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction()==KeyEvent.ACTION_UP)
-                    login(findViewById(R.id.login_button));
-                return true;
-            }
-        });
 
         users = new ArrayList<>();
 
@@ -66,8 +58,8 @@ public class LoginActivity extends AppCompatActivity{
     protected void onResume() {
         super.onResume();
         //clears values; they might have been populated by earlier User
-        username.setText("");
-        password.setText("");
+        username.setText("a");
+        password.setText("a");
         newUser.setChecked(false);
         seller.setChecked(false);
     }

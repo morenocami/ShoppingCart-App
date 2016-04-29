@@ -1,0 +1,106 @@
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="0dip" android:layout_gravity="top"
+    >
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight=".4"
+            android:layout_gravity="center_vertical">
+
+            <ImageView
+                android:layout_height="100dp"
+                android:layout_width="100dp"
+                android:layout_gravity="left|top"
+                android:scaleType="centerCrop"
+                android:id="@+id/list_item_image"
+
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/icon_green_check" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight=".25">
+
+            <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="0dip"
+                android:layout_centerInParent="true"
+                android:id="@+id/tableLayout"
+                android:layout_weight=".25"
+                android:layout_gravity="center_vertical">
+                <TableRow>
+                    <TextView
+                        android:id="@+id/list_item_name"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_weight="1" android:layout_gravity="center"
+                        android:textSize="18dp"
+                        android:textColor="#000000"
+                        android:layout_span="1"
+                        android:gravity="top|center_horizontal" />
+                </TableRow>
+                <TableRow>
+                    <TextView
+                        android:text=""
+                        android:id="@+id/list_item_price"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:textSize="16sp"
+                        android:textColor="#000000"
+                        android:gravity="center"/>
+                </TableRow>
+            </TableLayout>
+
+            <TextView
+                android:id="@+id/list_item_qty"
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_weight=".75"
+                android:textSize="16sp"
+                android:textColor="#000000"
+                android:layout_span="1"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/tableLayout"
+                android:layout_toEndOf="@+id/tableLayout"
+                android:text="Qty:\nx"
+                android:gravity="center"
+                android:layout_gravity="center_vertical" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight=".45"
+            android:layout_gravity="center"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_height="fill_parent"
+                android:layout_width="fill_parent"
+                android:gravity="left"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/icon_add_to_cart"
+                android:background="#ffffff"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:id="@+id/list_item_adder" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</TableLayout>

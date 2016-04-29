@@ -57,7 +57,8 @@
                         android:id="@+id/login_editText2"
                         android:hint="Password"
                         android:inputType="textPassword"
-                        android:gravity="center_horizontal" />
+                        android:gravity="center_horizontal"
+                        android:maxLines="1" />
 
                 </LinearLayout>
 

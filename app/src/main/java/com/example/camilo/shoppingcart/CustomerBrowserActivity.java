@@ -1,89 +1,89 @@
 package com.example.camilo.shoppingcart;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by Camilo on 4/18/2016.
  */
 public class CustomerBrowserActivity extends AppCompatActivity {
 
-    ListView list;
-    CustomAdapter adapter;
-    public CustomerBrowserActivity customListView = null;
-    public ArrayList<ListItemModel> customListViewValuesArr = new ArrayList<ListItemModel>();
+    private ArrayList<ListItemModel> listItems = new ArrayList<>();
+    private TextView cartSize;
+    private TextView cartTotal;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.customer_browser_activity);
 
-        customListView = this;
+        cartSize=(TextView)findViewById(R.id.browser_cart_size);
+        cartTotal=(TextView)findViewById(R.id.browser_cart_total);
 
-        /******** Take some data in Arraylist ( CustomListViewValuesArr ) ***********/
-        setListData();
+        populateListItems();
+        final ListView list = (ListView) findViewById(R.id.browser_listView);
 
-        Resources res =getResources();
-        list= ( ListView ) findViewById( R.id.browser_listView );  // List defined in XML ( See Below )
-
-        /**************** Create Custom Adapter *********/
-        adapter=new CustomAdapter( customListView, customListViewValuesArr,res );
-        list.setAdapter(adapter);
+        if (list != null) {
+            list.setAdapter( new CustomAdapter( this, listItems, getResources() ) );
+        }
+        else
+            Toast.makeText(this,"UI error",Toast.LENGTH_SHORT).show();
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.browser_toolbar);
         setSupportActionBar(myToolbar);
+    }
 
+    private void populateListItems() {
+        Iterator iterator = ShoppingSession.getInstance().getIterator();
+        while (iterator.hasNext()) {
+            final ListItemModel listItem = new ListItemModel();
+            final Product x = (Product) iterator.next();
+
+            listItem.setProductName(x.getName());
+            listItem.setImage(x.getImageResource());
+            listItem.setPrice(Double.toString(x.getSellPrice()));
+            listItem.setQty(x.getQty());
+
+            listItems.add(listItem);
+        }
+    }
+
+    /*****************  This function used by adapter ****************/
+    public void onItemClick(int mPosition, boolean addRequest)
+    {
+        ListItemModel tempValues = listItems.get(mPosition);
+
+        if(addRequest){
+            if(ShoppingSession.getInstance().addToCart(tempValues.getProductName())) {
+                cartSize.setText(ShoppingSession.getInstance().getCartSize());
+                cartTotal.setText(ShoppingSession.getInstance().getCartTotal());
+            }
+        }
+        else {
+            Toast.makeText(this, "Name: " + tempValues.getProductName() +
+                            "\nImage Resource ID: " + tempValues.getImage() +
+                            "\nPrice: " + tempValues.getPrice() +
+                            "\nQty: " + tempValues.getQty(),
+                    Toast.LENGTH_SHORT)
+                    .show();
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.browser_menu, menu);
         return super.onCreateOptionsMenu(menu);
-    }
-
-
-    /****** Function to set data in ArrayList *************/
-    public void setListData()
-    {
-
-        for (int i = 0; i < 11; i++) {
-
-            final ListItemModel sched = new ListItemModel();
-
-            /******* Firstly take data in model object ******/
-            sched.setProductName("Company " + i);
-            sched.setImage("image" + i);
-            sched.setPrice("$" + i);
-
-            /******** Take Model Object in ArrayList **********/
-            customListViewValuesArr.add(sched);
-        }
-
-    }
-
-
-    /*****************  This function used by adapter ****************/
-    public void onItemClick(int mPosition)
-    {
-        ListItemModel tempValues = ( ListItemModel ) customListViewValuesArr.get(mPosition);
-
-
-        // SHOW ALERT
-        Toast.makeText(customListView,"" +
-                        tempValues.getProductName()+
-                        "Image:"+tempValues.getImage()+
-                        "Url:"+tempValues.getPrice(),
-                        Toast.LENGTH_LONG )
-                .show();
     }
 
     @Override

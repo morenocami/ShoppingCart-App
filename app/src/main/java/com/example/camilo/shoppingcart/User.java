@@ -2,7 +2,6 @@ package com.example.camilo.shoppingcart;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.ListIterator;
 
 /**
@@ -14,7 +13,7 @@ public abstract class User implements Serializable{
         this.username=username;
         this.password=password;
         this.isSeller = isSeller;
-        myItems = new ArrayList<>();
+        shoppingCart = new ArrayList<>();
     }
 
     public boolean checkUsername(String username){
@@ -26,21 +25,27 @@ public abstract class User implements Serializable{
     }
 
     public ListIterator getIterator(){
-        return myItems.listIterator();
+        return shoppingCart.listIterator();
     }
 
-    public void login(){
-
+    public void addToCart(Product product){
+        shoppingCart.add(product);
     }
 
+    public double getCartTotal(){
+        double result=0;
+        for (Product p:shoppingCart) {
+            result += p.getSellPrice();
+        }
+        return result;
+    }
 
-    private void restoreCart(){
-
-        myItems = new ArrayList<>(); //retrieve from storage (physical/cloud)
+    public int getCartSize(){
+        return shoppingCart.size();
     }
 
     private String username;
     private String password;
     private boolean isSeller;
-    private ArrayList<Product> myItems;
+    private ArrayList<Product> shoppingCart;
 }
