@@ -7,24 +7,65 @@ import android.media.Image;
  */
 public class Product implements Comparable {
 
-    Product(String name, double sellPrice, int imageResource){
+    Product(int imageResource, String name, double sellPrice, double cost, int qty, String description, String seller){
         this.name=name;
         this.sellPrice=sellPrice;
+        this.cost=cost;
         this.imageResource = imageResource;
+        this.qty=qty;
+        this.description=description;
+        this.seller = seller;
     }
 
-    public void decrementQuantity(){
+    public int getQty() {
+        return qty;
+    }
+    public String getName() {
+        return name;
+    }
+    public String getDescription() {
+        return description;
+    }
+    public String getSeller() {
+        return seller;
+    }
+    public double getSellPrice() {
+        return sellPrice;
+    }
+    public double getCost() {
+        return cost;
+    }
+    public int getImageResource() {
+        return imageResource;
+    }
+
+    public void setQty(int qty){
+        this.qty=qty;
+    }
+
+    public boolean decrementfromInventory(){
+        if(qty==0)
+            return false;
         qty--;
+        return true;
     }
-
+    public boolean decrementfromCart(){
+        if(qty==1)
+            return false;
+        qty--;
+        return true;
+    }
     public void incrementQuantity(){
         qty++;
     }
 
     @Override
     public int compareTo(Object other) {
-
         return 0;
+    }
+
+    protected Object singleClone() {
+        return new Product(this.imageResource, this.name, this.sellPrice, this.cost, 1, this.description, this.seller);
     }
 
     private int qty;

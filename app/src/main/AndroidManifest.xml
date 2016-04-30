@@ -22,35 +22,44 @@
 
         </activity>
 
-        <activity android:name=".CustomerBrowserActivity"
+        <activity android:name=".CustomerActivity"
             android:label="Browse"
             android:screenOrientation="portrait">
 
         </activity>
 
-        <activity android:name=".ReviewCartActivity"
+        <activity android:name=".CartActivity"
             android:label="Review Cart"
             android:screenOrientation="portrait">
 
         </activity>
 
-        <activity android:name=".SellerBrowserActivity"
+        <activity android:name=".SellerActivity"
             android:label="My Inventory"
             android:screenOrientation="portrait">
 
         </activity>
 
-        <!--<activity android:name=".ReviewCartActivity"-->
-            <!--android:label="Review Cart"-->
-            <!--android:screenOrientation="portrait">-->
+        <activity android:name=".SellerStatistics"
+            android:label="My Statistics"
+            android:screenOrientation="portrait"
+            android:noHistory="true">
 
-        <!--</activity>-->
+        </activity>
 
-        <!--<activity android:name=".ReviewCartActivity"-->
-            <!--android:label="Review Cart"-->
-            <!--android:screenOrientation="portrait">-->
+        <activity android:name=".ProductView"
+        android:label="Detail View"
+        android:screenOrientation="portrait"
+            android:noHistory="true">
 
-        <!--</activity>-->
+        </activity>
+
+        <activity android:name=".ProductCreation"
+        android:label="Create New Product"
+        android:screenOrientation="portrait"
+        android:noHistory="true">
+
+        </activity>
 
 
     </application>

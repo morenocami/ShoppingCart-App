@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:background="#c57aa889">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/browser_toolbar"
@@ -23,46 +24,51 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="#000000">
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Items: 0"
-                android:id="@+id/browser_textView1"
+                android:id="@+id/browser_cart_size"
                 android:layout_weight="1"
                 android:lines="2"
                 android:gravity="left|center"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:singleLine="false"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:textColor="#ffffff" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="$0.00"
-                android:id="@+id/browser_textView2"
+                android:id="@+id/browser_cart_total"
                 android:layout_weight="1"
                 android:gravity="center|right"
                 android:lines="2"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:singleLine="false"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:textColor="#ffffff"
+                android:visibility="gone" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:text="Add new Product"
+                android:id="@+id/seller_add_product"
+                android:visibility="gone" />
 
         </LinearLayout>
 
-        <ScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:id="@+id/browser_scrollView"
-            android:fillViewport="true">
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/browser_listView" />
 
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/browser_listView" />
-        </ScrollView>
     </LinearLayout>
 </RelativeLayout>
