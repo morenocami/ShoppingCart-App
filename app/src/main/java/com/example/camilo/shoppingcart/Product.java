@@ -7,12 +7,14 @@ import android.media.Image;
  */
 public class Product implements Comparable {
 
-    Product(String name, double sellPrice, int imageResource, int qty, String description){
+    Product(int imageResource, String name, double sellPrice, double cost, int qty, String description, String seller){
         this.name=name;
         this.sellPrice=sellPrice;
+        this.cost=cost;
         this.imageResource = imageResource;
         this.qty=qty;
         this.description=description;
+        this.seller = seller;
     }
 
     public int getQty() {
@@ -37,6 +39,9 @@ public class Product implements Comparable {
         return imageResource;
     }
 
+    public void setQty(int qty){
+        this.qty=qty;
+    }
 
     public boolean decrementfromInventory(){
         if(qty==0)
@@ -59,9 +64,8 @@ public class Product implements Comparable {
         return 0;
     }
 
-    @Override
-    protected Object clone() {
-        return new Product(this.name, this.sellPrice, this.imageResource, 1, this.description);
+    protected Object singleClone() {
+        return new Product(this.imageResource, this.name, this.sellPrice, this.cost, 1, this.description, this.seller);
     }
 
     private int qty;

@@ -139,9 +139,9 @@ public class CustomAdapter extends BaseAdapter implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {
-            final BrowserActivity sct = (BrowserActivity) activity;
+            final BrowserActivity browserActivity = (BrowserActivity) activity;
             /****  Call  onItemClick Method inside CustomerActivity Class ( See Below )****/
-            sct.onItemClick(mPosition, addRequest);
+            browserActivity.onItemClick(mPosition, addRequest);
         }
     }
 }

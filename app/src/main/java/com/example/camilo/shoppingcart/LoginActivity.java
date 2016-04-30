@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +41,19 @@ public class LoginActivity extends AppCompatActivity{
         password = (TextView) findViewById(R.id.login_editText2);
         switchNewUser = (Switch)findViewById(R.id.login_switch1);
         switchSeller = (Switch)findViewById(R.id.login_switch2);
+        switchSeller.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    username.setText("b");
+                    password.setText("b");
+                }
+                else{
+                    username.setText("a");
+                    password.setText("a");
+                }
+            }
+        });
 
         users = new ArrayList<>();
 
@@ -59,10 +73,10 @@ public class LoginActivity extends AppCompatActivity{
     protected void onResume() {
         super.onResume();
         //clears values; they might have been populated by earlier User
-        username.setText("b");
-        password.setText("b");
+        username.setText("");
+        password.setText("");
         switchNewUser.setChecked(false);
-        switchSeller.setChecked(true);
+        switchSeller.setChecked(false);
     }
 
     public void login(View v){

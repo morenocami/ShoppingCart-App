@@ -1,13 +1,16 @@
 package com.example.camilo.shoppingcart;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,9 +30,6 @@ public abstract class BrowserActivity extends AppCompatActivity {
     private CustomAdapter adapter;
     private ListView list;
 
-    protected FragmentManager fm = getSupportFragmentManager();
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +39,16 @@ public abstract class BrowserActivity extends AppCompatActivity {
         cartTotal=(TextView)findViewById(R.id.browser_cart_total);
         sellerAdder = (Button)findViewById(R.id.seller_add_product);
 
+        if(this instanceof SellerActivity) {
+            sellerAdder.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(getContext(),ProductCreation.class));
+                }
+            });
+        }
 
-
+        Session.getInstance().refreshMyInventory();
         populateListItems();
         list = (ListView) findViewById(R.id.browser_listView);
         adapter = new CustomAdapter( getContext(), listItems, getRes() );
@@ -57,7 +65,7 @@ public abstract class BrowserActivity extends AppCompatActivity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         if(hasFocus){
-            if(this instanceof CustomerActivity) {
+            if(this instanceof CustomerActivity || this instanceof CartActivity) {
                 listSize.setText(Session.getInstance().getCartSize());
                 cartTotal.setText(Session.getInstance().getCartTotal());
                 cartTotal.setVisibility(View.VISIBLE);
@@ -68,6 +76,8 @@ public abstract class BrowserActivity extends AppCompatActivity {
                 adapter.updateList(listItems);
             }
             else if(this instanceof SellerActivity) {
+                listSize.setText(Session.getInstance().getSellerInventorySize());
+
                 cartTotal.setVisibility(View.GONE);
                 sellerAdder.setVisibility(View.VISIBLE);
 
@@ -79,6 +89,7 @@ public abstract class BrowserActivity extends AppCompatActivity {
         super.onWindowFocusChanged(hasFocus);
     }
 
+
     private void populateListItems() {
         Iterator iterator = getIterator();
         while (iterator.hasNext()) {
@@ -88,6 +99,7 @@ public abstract class BrowserActivity extends AppCompatActivity {
             listItem.setProductName(x.getName());
             listItem.setImageResource(x.getImageResource());
             listItem.setPrice(Double.toString(x.getSellPrice()));
+            listItem.setCost(Double.toString(x.getCost()));
             listItem.setQty(x.getQty());
             listItem.setDescription(x.getDescription());
 
@@ -102,7 +114,7 @@ public abstract class BrowserActivity extends AppCompatActivity {
 
         //a request is when the right button is pressed
         if(request){
-            //the button in this activity is to add to cart
+            //the button in this activity is to addproduct to cart
             if(getContext() instanceof CustomerActivity){
                 if(Session.getInstance().addProductToCart(item.getProductName())) {
                     listSize.setText(Session.getInstance().getCartSize());
@@ -111,7 +123,7 @@ public abstract class BrowserActivity extends AppCompatActivity {
             }
             //the button in this activity is to remove from cart
             else if(getContext() instanceof CartActivity){
-                if(Session.getInstance().removeProductFromCart(item.getProductName())) {
+                if(Session.getInstance().removeFromCartByName(item.getProductName())) {
                     listSize.setText(Session.getInstance().getCartSize());
                     cartTotal.setText(Session.getInstance().getCartTotal());
                 }
@@ -120,10 +132,26 @@ public abstract class BrowserActivity extends AppCompatActivity {
                     cartTotal.setText(Session.getInstance().getCartTotal());
                 }
             }
-            //the button in this activity is to edit an item
+            //the button in this activity is to edit an item's quantity
             else if(getContext() instanceof SellerActivity){
+                final EditText input = new EditText(getContext());
+                input.setInputType(InputType.TYPE_CLASS_NUMBER);
+                input.setWidth(30);
+                new AlertDialog.Builder(this)
+                        .setIcon(R.drawable.icon_refresh)
+                        .setTitle("Confirm quantity")
+                        .setMessage("Update product quantity and press \"Update\"")
+                        .setView(input)
+                        .setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Session.getInstance().updateProduct(item.getProductName(),
+                                        Integer.parseInt(input.getText().toString()));
+                            }
 
-
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .show();
             }
             listItems.clear();
             populateListItems();
@@ -134,8 +162,14 @@ public abstract class BrowserActivity extends AppCompatActivity {
         }
         //touching the rest of the list item results in the product's full view
         else {
-            startActivity(new Intent(getContext(), ProductViewFull.class).
-                    putExtra("content", item));
+            if(getContext() instanceof CustomerActivity || getContext() instanceof CartActivity) {
+                Bundle b = new Bundle();
+                b.putSerializable("content", item);
+                startActivity(new Intent(getContext(), ProductView.class).putExtras(b));
+            }
+            else
+                startActivity(new Intent(getContext(), ProductCreation.class));
+
         }
     }
 

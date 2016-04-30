@@ -6,11 +6,12 @@ import java.io.Serializable;
  * Created by Camilo on 4/28/2016.
  */
 public class ListItemModel implements Serializable{
-    private  String productName ="";
+    private  String productName = "";
     private  int imageResource = 0;
-    private  String price ="";
+    private  String price = "";
+    private  String cost = "";
     private  int qty = 0;
-    private  String description="";
+    private  String description = "";
 
     /*********** Set Methods ******************/
 
@@ -24,6 +25,10 @@ public class ListItemModel implements Serializable{
 
     public void setPrice(String price) {
         this.price = price;
+    }
+
+    public void setCost(String cost) {
+        this.cost = cost;
     }
 
     public void setQty(int qty) {
@@ -46,6 +51,10 @@ public class ListItemModel implements Serializable{
 
     public String getPrice() {
         return this.price;
+    }
+
+    public String getCost() {
+        return cost;
     }
 
     public int getQty() {

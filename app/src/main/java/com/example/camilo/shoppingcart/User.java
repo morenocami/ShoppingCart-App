@@ -27,6 +27,10 @@ public abstract class User implements Serializable{
 
     public boolean isSeller(){return isSeller;}
 
+    public String getUsername(){
+        return username;
+    }
+
     private String username;
     private String password;
     private boolean isSeller;

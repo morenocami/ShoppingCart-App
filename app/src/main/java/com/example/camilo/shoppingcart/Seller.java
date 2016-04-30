@@ -1,6 +1,5 @@
 package com.example.camilo.shoppingcart;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
@@ -10,14 +9,14 @@ public class Seller extends User {
 
     public Seller(String username, String password, boolean isSeller) {
         super(username, password, isSeller);
-        myInventory = new ArrayList<>();
+        myInventory = new Inventory();
     }
 
     public Iterator getIterator(){
         return myInventory.iterator();
     }
 
-    public int getInventorySize(){
+    public int getMyInventorySize(){
         int count=0;
         for(Product p : myInventory)
             count+=p.getQty();
@@ -32,32 +31,36 @@ public class Seller extends User {
         return sum;
     }
 
-    public void addToInventory(Product newProduct){
+
+    public boolean addNewProduct(Product newProduct){
         if(myInventory.isEmpty())
-            myInventory.add((Product)newProduct.clone());
+            myInventory.addToBoth(newProduct);
         else{
-            for(Product cartItem : myInventory){
-                if(newProduct.getName().equals(cartItem.getName())) {
-                    cartItem.incrementQuantity();
-                    return;
+            for(Product p : myInventory){
+                if(newProduct.getName().equals(p.getName())) {
+                    return false;
                 }
             }
-            myInventory.add((Product)newProduct.clone());
+            myInventory.addToBoth(newProduct);
         }
+        return true;
     }
     public boolean removeFromInventory(String productToRemove){
-        for(Product cartItem : myInventory){
-            if(productToRemove.equals(cartItem.getName())) {
-                if(!cartItem.decrementfromCart()) {
-                    myInventory.remove(cartItem);
-                    return true;
-                }
+        for(Product product : myInventory){
+            if(product.getName().equals(productToRemove)) {
+                myInventory.remove(product);
             }
         }
         return true;
     }
 
+    public void updateProduct(String name, int newQuantity){
+        for(Product p : myInventory){
+            if(p.getName().equals(name)) {
+                p.setQty(newQuantity);
+            }
+        }
+    }
 
-
-    private ArrayList<Product> myInventory;
+    private Inventory myInventory;
 }

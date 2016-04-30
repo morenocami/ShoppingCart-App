@@ -42,21 +42,24 @@
 
         <activity android:name=".SellerStatistics"
             android:label="My Statistics"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:noHistory="true">
 
         </activity>
 
-        <activity android:name=".ProductViewFull"
+        <activity android:name=".ProductView"
         android:label="Detail View"
-        android:screenOrientation="portrait">
+        android:screenOrientation="portrait"
+            android:noHistory="true">
 
         </activity>
 
-        <!--<activity android:name=".SellerActivity"-->
-        <!--android:label="Review Cart"-->
-        <!--android:screenOrientation="portrait">-->
+        <activity android:name=".ProductCreation"
+        android:label="Create New Product"
+        android:screenOrientation="portrait"
+        android:noHistory="true">
 
-        <!--</activity>-->
+        </activity>
 
 
     </application>

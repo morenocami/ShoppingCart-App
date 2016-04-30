@@ -8,26 +8,37 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 /**
  * Created by Camilo on 4/30/2016.
  */
-public class ProductViewFull extends AppCompatActivity {
+public class ProductView extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.product_view_full);
+        setContentView(R.layout.product_view_activity);
 
-        ListItemModel item = (ListItemModel)getIntent().getSerializableExtra("content");
+        ImageView imageView = (ImageView) findViewById(R.id.product_image_full);
+        EditText nameView = (EditText) findViewById(R.id.product_name_full);
+        EditText priceView = (EditText) findViewById(R.id.product_price_full);
+        EditText qtyView = (EditText) findViewById(R.id.product_qty_full);
+        EditText descriptionView = (EditText) findViewById(R.id.product_description_full);
 
-        ((ImageView) findViewById(R.id.product_image_full)).setImageResource(item.getImageResource());
-        ((TextView) findViewById(R.id.product_name_full)).setText(item.getProductName());
-        ((TextView) findViewById(R.id.product_price_full)).setText("$" + item.getPrice());
-        ((TextView) findViewById(R.id.product_qty_full)).setText("Qty: " + item.getQty());
-        ((TextView) findViewById(R.id.product_description_full)).setText(item.getDescription());
+        ListItemModel item = (ListItemModel) getIntent().getExtras().get("content");
+
+        imageView.setImageResource(item.getImageResource());
+        nameView.setText(item.getProductName());
+        priceView.setText("" + item.getPrice());
+        qtyView.setText("" + item.getQty());
+        descriptionView.setText(item.getDescription());
+
+        nameView.setKeyListener(null);
+        priceView.setKeyListener(null);
+        qtyView.setKeyListener(null);
+        descriptionView.setKeyListener(null);
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.product_view_toolbar);
         setSupportActionBar(toolbar);
@@ -43,7 +54,7 @@ public class ProductViewFull extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case R.id.action_home:
-                startActivity(new Intent(ProductViewFull.this, CustomerActivity.class));
+                startActivity(new Intent(ProductView.this, CustomerActivity.class));
                 return true;
             case R.id.action_settings:
 
@@ -58,7 +69,7 @@ public class ProductViewFull extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Session.getInstance().userLogout();
-                                final Intent back = new Intent(ProductViewFull.this, LoginActivity.class);
+                                final Intent back = new Intent(ProductView.this, LoginActivity.class);
                                 back.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(back);
                             }

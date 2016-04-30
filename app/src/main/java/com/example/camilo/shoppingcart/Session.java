@@ -9,11 +9,8 @@ import java.util.Iterator;
  */
 public class Session extends AppCompatActivity{
 
-    public static final String INVENTORY_FILE = "master_inventory";
-
     private Session(){
         inventory = new Inventory();
-        inventory.load();
     }
 
     public static Session getInstance(){
@@ -24,46 +21,73 @@ public class Session extends AppCompatActivity{
 
 
 
-
-    public String getCartSize(){
-        return "Items: " + ((Customer)currentUser).getCartSize();
-    }
-    public String getCartTotal(){
-        return "$ "+String.format("%.2f", ((Customer) currentUser).getCartTotal());
-    }
-
+//customer functions
     public boolean addProductToCart(String name){
-        if(inventory.removeByName(name)) {
+        if(inventory.decrementByName(name)) {
             ((Customer) currentUser).addToCart(inventory.getCloneByName(name));
             return true;
         }
         return false;
     }
-    public boolean removeProductFromCart(String name){
+    public boolean removeFromCartByName(String name){
         ((Customer)currentUser).removeFromCart(name);
-        inventory.addByName(name);
+        inventory.incrementByName(name);
         return true;
     }
-
-    public Iterator getInventoryIterator(){
-        return inventory.iterator();
+    public String getCartTotal(){
+        return "$ "+String.format("%.2f", ((Customer) currentUser).getCartTotal());
     }
-
+    public String getCartSize(){
+        return "Items: " + ((Customer)currentUser).getCartSize();
+    }
     public Iterator getCartIterator(){
         return ((Customer)currentUser).getIterator();
     }
+////////////////////////////
 
+
+    //seller functions
+    public boolean createProduct(int resource, String name, double price, double cost, int qty, String description){
+        //check for item uniqueness by name
+        for(Product p:inventory){
+            if(p.getName().equals(name))
+                return false;
+        }
+
+        final Product newProduct = new Product(resource, name, price, cost, qty, description, Session.getInstance().getSellerName());
+        if(((Seller) currentUser).addNewProduct(newProduct)) {
+//            inventory.loadMaster();
+            return true;
+        }
+        return false;
+    }
+//    public boolean deleteProduct(String name){
+//        ((Customer)currentUser).removeFromCart(name);
+//        inventory.incrementByName(name);
+//        return true;
+//    }
+    public void updateProduct(String name, int newQuantity){
+        if(newQuantity==0)
+            ((Seller)currentUser).removeFromInventory(name);
+        else
+            ((Seller)currentUser).updateProduct(name, newQuantity);
+    }
+    public String getSellerInventorySize(){
+        return "Items: " + ((Seller)currentUser).getMyInventorySize();
+    }
     public Iterator getSellerIterator(){
         return ((Seller)currentUser).getIterator();
     }
-
-    public int getMyInventorySize(){
-        return ((Seller)currentUser).getInventorySize();
+    public void refreshMyInventory(){
+        inventory.load();
     }
 
 
 
-
+    //general functions
+    public Iterator getInventoryIterator(){
+        return inventory.masterIterator();
+    }
     public void userLogin(User user){
         currentUser = user;
     }
@@ -72,9 +96,12 @@ public class Session extends AppCompatActivity{
         inventory =null;
         instance=null;
     }
+    public String getSellerName(){
+        return currentUser.getUsername();
+    }
 
 
-    private Inventory inventory;
     private User currentUser;
+    private Inventory inventory;
     private static Session instance;
 }

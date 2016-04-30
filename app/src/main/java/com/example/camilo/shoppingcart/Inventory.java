@@ -4,13 +4,16 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.OptionalDataException;
+import java.io.Serializable;
 import java.io.StreamCorruptedException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by Camilo on 4/29/2016.
  */
-public class Inventory extends ArrayList<Product>{
+public class Inventory extends ArrayList<Product> implements Serializable{
 
     private final static String MASTER_LIST = "master";
     public final static String SAMPLE_DESCRIPTION = "Lorem ipsum dolor sit amet, consectetur\n" +
@@ -23,62 +26,70 @@ public class Inventory extends ArrayList<Product>{
 
 
     Inventory(){
-
+        if(master==null) {
+            master=new ArrayList<>();
+            master = this.loadMaster();
+        }
     }
 
-    public void load(){
+    private ArrayList<Product> loadMaster(){
         try {
             FileInputStream fis = new FileInputStream(MASTER_LIST);
             ObjectInputStream ois = new ObjectInputStream(fis);
-            ArrayList<Product> temp = ((ArrayList<Product>)ois.readObject());
-            this.clear();
-            this.addAll(temp);
-            return;
+            return (ArrayList<Product>)ois.readObject();
         }
         catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (OptionalDataException e) {
             e.printStackTrace();
         } catch (StreamCorruptedException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
 
         //no master inventory exists, populate with fake items
-        this.add(new Product("Add", 100.79,
-                R.drawable.icon_add_to_cart, 1, SAMPLE_DESCRIPTION));
-        this.add(new Product("Remove", 225.24,
-                R.drawable.icon_remove_from_cart, 2, SAMPLE_DESCRIPTION));
-        this.add(new Product("Edit", 49.22,
-                R.drawable.icon_edit, 3, SAMPLE_DESCRIPTION));
-        this.add(new Product("Check", 71.98,
-                R.drawable.icon_green_check, 4, SAMPLE_DESCRIPTION));
-        this.add(new Product("Settings", 35.50,
-                R.drawable.icon_settings, 5, SAMPLE_DESCRIPTION));
-        this.add(new Product("Cart", 15.14,
-                R.drawable.icon_cart, 6, SAMPLE_DESCRIPTION));
+        final ArrayList<Product> temp= new ArrayList<>();
+        final String username = "sample seller";
+        temp.add(new Product(R.drawable.icon_add_to_cart,
+                "Add", 100.79, 80, 1, SAMPLE_DESCRIPTION, username));
+        temp.add(new Product(R.drawable.icon_remove_from_cart,
+                "Remove", 225.24, 180, 2, SAMPLE_DESCRIPTION, username));
+        temp.add(new Product(R.drawable.icon_edit,
+                "Edit", 49.22, 30, 3, SAMPLE_DESCRIPTION, username));
+        temp.add(new Product(R.drawable.icon_green_check,
+                "Check", 71.98, 50, 4, SAMPLE_DESCRIPTION, username));
+        temp.add(new Product(R.drawable.icon_settings,
+                "Settings", 35.50, 20, 5, SAMPLE_DESCRIPTION, username));
+        temp.add(new Product(R.drawable.icon_cart,
+                "Cart", 15.14, 10, 6, SAMPLE_DESCRIPTION, username));
+        return temp;
+    }
+    public Iterator masterIterator(){
+        return master.iterator();
     }
 
+
+//customer functions
     public Product getCloneByName(String name){
-        for(Product p : this){
+        for(Product p : master){
             if(p.getName().equals(name)) {
-                return (Product)p.clone();
+                return (Product)p.singleClone();
             }
         }
         return null;
     }
-
-    public void addByName(String name){
-        for(Product p : this){
+    public void incrementByName(String name){
+        for(Product p : master){
             if(p.getName().equals(name)) {
                 p.incrementQuantity();
             }
         }
     }
-
-    public boolean removeByName(String name){
-        for(Product p : this){
+    public boolean decrementByName(String name){
+        for(Product p : master){
             if(p.getName().equals(name)) {
                 return p.decrementfromInventory();
             }
@@ -87,4 +98,19 @@ public class Inventory extends ArrayList<Product>{
     }
 
 
+//seller functions
+    public boolean addToBoth(Product object) {
+        master.add(object);
+        return super.add(object);
+    }
+    public void load() {
+        this.clear();
+        for(int x=0; x<master.size();x++){
+            if(master.get(x).getSeller().equals(Session.getInstance().getSellerName()))
+                this.add(master.get(x));
+        }
+    }
+
+
+    private static ArrayList<Product> master=null;
 }

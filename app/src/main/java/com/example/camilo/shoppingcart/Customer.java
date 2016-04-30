@@ -37,6 +37,7 @@ public class Customer extends User {
                     shoppingCart.remove(cartItem);
                     return true;
                 }
+                break;
             }
         }
         return true;
