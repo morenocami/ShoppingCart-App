@@ -38,7 +38,7 @@ public class CustomerActivity extends BrowserActivity {
 
     @Override
     protected Iterator getIterator() {
-        return ShoppingSession.getInstance().getInventoryIterator();
+        return Session.getInstance().getInventoryIterator();
     }
 
 
@@ -55,7 +55,7 @@ public class CustomerActivity extends BrowserActivity {
 
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            ShoppingSession.getInstance().userLogout();
+                            Session.getInstance().userLogout();
                             final Intent back = new Intent(CustomerActivity.this, LoginActivity.class);
                             back.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(back);

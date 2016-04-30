@@ -1,8 +1,6 @@
 package com.example.camilo.shoppingcart;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Created by Camilo on 4/25/2016.
@@ -16,7 +14,7 @@ public abstract class User implements Serializable{
     }
 
     public void login(){
-        ShoppingSession.getInstance().userLogin(this);
+        Session.getInstance().userLogin(this);
     }
 
     public boolean checkUsername(String username){

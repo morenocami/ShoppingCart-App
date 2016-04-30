@@ -46,11 +46,11 @@
 
         </activity>
 
-        <!--<activity android:name=".SellerActivity"-->
-        <!--android:label="Review Cart"-->
-        <!--android:screenOrientation="portrait">-->
+        <activity android:name=".ProductViewFull"
+        android:label="Detail View"
+        android:screenOrientation="portrait">
 
-        <!--</activity>-->
+        </activity>
 
         <!--<activity android:name=".SellerActivity"-->
         <!--android:label="Review Cart"-->

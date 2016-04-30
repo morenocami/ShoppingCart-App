@@ -1,13 +1,16 @@
 package com.example.camilo.shoppingcart;
 
+import java.io.Serializable;
+
 /**
  * Created by Camilo on 4/28/2016.
  */
-public class ListItemModel {
+public class ListItemModel implements Serializable{
     private  String productName ="";
-    private  int image = 0;
+    private  int imageResource = 0;
     private  String price ="";
-    private int qty = 0;
+    private  int qty = 0;
+    private  String description="";
 
     /*********** Set Methods ******************/
 
@@ -15,8 +18,8 @@ public class ListItemModel {
         this.productName = productName;
     }
 
-    public void setImage(int image) {
-        this.image = image;
+    public void setImageResource(int imageResource) {
+        this.imageResource = imageResource;
     }
 
     public void setPrice(String price) {
@@ -27,14 +30,18 @@ public class ListItemModel {
         this.qty = qty;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     /*********** Get Methods ****************/
 
     public String getProductName() {
         return this.productName;
     }
 
-    public int getImage() {
-        return this.image;
+    public int getImageResource() {
+        return this.imageResource;
     }
 
     public String getPrice() {
@@ -43,5 +50,9 @@ public class ListItemModel {
 
     public int getQty() {
         return qty;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

@@ -19,7 +19,7 @@ public class Customer extends User {
 
     public void addToCart(Product newProduct){
         if(shoppingCart.isEmpty())
-            shoppingCart.add((Product)newProduct.clone());
+            shoppingCart.add(newProduct);
         else{
             for(Product cartItem : shoppingCart){
                 if(newProduct.getName().equals(cartItem.getName())) {
@@ -27,7 +27,7 @@ public class Customer extends User {
                     return;
                 }
             }
-            shoppingCart.add((Product)newProduct.clone());
+            shoppingCart.add(newProduct);
         }
     }
     public boolean removeFromCart(String productToRemove){

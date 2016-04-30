@@ -3,7 +3,6 @@ package com.example.camilo.shoppingcart;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
-import android.database.DataSetObserver;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.ListIterator;
 
 /**
  * Created by Camilo on 4/28/2016.
@@ -113,7 +111,7 @@ public class CustomAdapter extends BaseAdapter implements View.OnClickListener {
 
             holder.text.setText(tempValues.getProductName());
             holder.price.setText(tempValues.getPrice());
-            holder.image.setImageResource(tempValues.getImage());
+            holder.image.setImageResource(tempValues.getImageResource());
             holder.qty.setText("Qty: \n" + tempValues.getQty());
 
             /******** Set Item Click Listner for LayoutInflater for each row *******/

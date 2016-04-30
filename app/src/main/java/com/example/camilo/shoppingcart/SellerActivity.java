@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -39,7 +38,7 @@ public class SellerActivity extends BrowserActivity {
 
     @Override
     protected Iterator getIterator() {
-        return ShoppingSession.getInstance().getSellerIterator();
+        return Session.getInstance().getSellerIterator();
     }
 
 
@@ -57,7 +56,7 @@ public class SellerActivity extends BrowserActivity {
 
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            ShoppingSession.getInstance().userLogout();
+                            Session.getInstance().userLogout();
                             final Intent back = new Intent(SellerActivity.this, LoginActivity.class);
                             back.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(back);

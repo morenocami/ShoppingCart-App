@@ -54,14 +54,14 @@
                 android:singleLine="false"
                 android:textSize="20dp"
                 android:textColor="#ffffff"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:text="Add new Product"
                 android:id="@+id/seller_add_product"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
         </LinearLayout>
 

@@ -1,45 +1,37 @@
 package com.example.camilo.shoppingcart;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import java.util.Iterator;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 /**
- * Created by Camilo on 4/26/2016.
+ * Created by Camilo on 4/30/2016.
  */
-public class CartActivity extends BrowserActivity {
+public class ProductViewFull extends AppCompatActivity {
 
     @Override
-    protected int setLayout() {
-        return R.layout.browser_activity;
-    }
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.product_view_full);
 
-    @Override
-    protected int getToolbar() {
-        return R.id.browser_toolbar;
-    }
+        ListItemModel item = (ListItemModel)getIntent().getSerializableExtra("content");
 
-    @Override
-    protected Activity getContext() {
-        return this;
-    }
+        ((ImageView) findViewById(R.id.product_image_full)).setImageResource(item.getImageResource());
+        ((TextView) findViewById(R.id.product_name_full)).setText(item.getProductName());
+        ((TextView) findViewById(R.id.product_price_full)).setText("$" + item.getPrice());
+        ((TextView) findViewById(R.id.product_qty_full)).setText("Qty: " + item.getQty());
+        ((TextView) findViewById(R.id.product_description_full)).setText(item.getDescription());
 
-    @Override
-    protected Resources getRes() {
-        return getResources();
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.product_view_toolbar);
+        setSupportActionBar(toolbar);
     }
-
-    @Override
-    protected Iterator getIterator() {
-        return Session.getInstance().getCartIterator();
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -51,7 +43,7 @@ public class CartActivity extends BrowserActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case R.id.action_home:
-                startActivity(new Intent(CartActivity.this, CustomerActivity.class));
+                startActivity(new Intent(ProductViewFull.this, CustomerActivity.class));
                 return true;
             case R.id.action_settings:
 
@@ -66,7 +58,7 @@ public class CartActivity extends BrowserActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Session.getInstance().userLogout();
-                                final Intent back = new Intent(CartActivity.this, LoginActivity.class);
+                                final Intent back = new Intent(ProductViewFull.this, LoginActivity.class);
                                 back.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(back);
                             }
