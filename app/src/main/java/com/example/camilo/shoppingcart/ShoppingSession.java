@@ -23,28 +23,34 @@ public class ShoppingSession extends AppCompatActivity{
             ois.close();
         }
         catch(Exception ex){
-            inventory.add(new Product("Add", 100.79, R.drawable.icon_add_to_cart,1));
-            inventory.add(new Product("Remove", 225.24, R.drawable.icon_remove_from_cart,2));
-            inventory.add(new Product("Edit", 49.22, R.drawable.icon_edit,3));
-            inventory.add(new Product("Check", 71.98, R.drawable.icon_green_check,4));
-            inventory.add(new Product("Settings", 35.50, R.drawable.icon_settings,5));
-            inventory.add(new Product("Cart", 15.14, R.drawable.icon_cart,6));
+            inventory.add(new Product("Add", 100.79,
+                    R.drawable.icon_add_to_cart,1));
+            inventory.add(new Product("Remove", 225.24,
+                    R.drawable.icon_remove_from_cart,2));
+            inventory.add(new Product("Edit", 49.22,
+                    R.drawable.icon_edit,3));
+            inventory.add(new Product("Check", 71.98,
+                    R.drawable.icon_green_check,4));
+            inventory.add(new Product("Settings", 35.50,
+                    R.drawable.icon_settings,5));
+            inventory.add(new Product("Cart", 15.14,
+                    R.drawable.icon_cart,6));
             ex.printStackTrace();
         }
     }
 
     public String getCartSize(){
-        return "Items: " + currentUser.getCartSize();
+        return "Items: " + ((Customer)currentUser).getCartSize();
     }
     public String getCartTotal(){
-        return "$ " + String.format("%.2f", currentUser.getCartTotal());
+        return "$ "+String.format("%.2f", ((Customer) currentUser).getCartTotal());
     }
 
     public boolean addProduct(String name){
         for(Product p : inventory){
             if(p.getName().equals(name)) {
                 if(p.decrementfromInventory()){
-                    currentUser.addToCart(p);
+                    ((Customer)currentUser).addToCart(p);
                     return true;
                 }
             }
@@ -54,22 +60,13 @@ public class ShoppingSession extends AppCompatActivity{
     public boolean removeProduct(String name){
         for(Product p : inventory){
             if(p.getName().equals(name)) {
-                if(currentUser.removeFromCart(name)){
+                if(((Customer)currentUser).removeFromCart(name)){
                     p.incrementQuantity();
                     return true;
                 }
             }
         }
         return true;
-    }
-
-    public void userLogin(User user){
-        currentUser = user;
-    }
-    public void userLogout(){
-        currentUser=null;
-        inventory=null;
-        instance=null;
     }
 
     public static ShoppingSession getInstance(){
@@ -83,8 +80,41 @@ public class ShoppingSession extends AppCompatActivity{
     }
 
     public Iterator getCartIterator(){
-        return currentUser.getIterator();
+        return ((Customer)currentUser).getIterator();
     }
+
+
+
+
+
+
+
+
+
+
+
+    public Iterator getSellerIterator(){
+        return ((Seller)currentUser).getIterator();
+    }
+
+    public int getMyInventorySize(){
+        return ((Seller)currentUser).getInventorySize();
+    }
+
+
+
+
+
+
+    public void userLogin(User user){
+        currentUser = user;
+    }
+    public void userLogout(){
+        currentUser=null;
+        inventory=null;
+        instance=null;
+    }
+
 
     private ArrayList<Product> inventory;
     private User currentUser;

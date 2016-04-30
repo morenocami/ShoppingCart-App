@@ -82,6 +82,16 @@ public class CustomAdapter extends BaseAdapter implements View.OnClickListener {
             holder.qty =(TextView)vi.findViewById(R.id.list_item_qty);
             holder.adder=(ImageView)vi.findViewById(R.id.list_item_option);
 
+            if(activity instanceof CustomerActivity) {
+                holder.adder.setImageResource(R.drawable.icon_add_to_cart);
+            }
+            else if(activity instanceof CartActivity) {
+                holder.adder.setImageResource(R.drawable.icon_remove_from_cart);
+            }
+            else{
+                holder.adder.setImageResource(R.drawable.icon_edit);
+            }
+
             /************  Set holder with LayoutInflater ************/
             vi.setTag( holder );
         }
@@ -109,7 +119,7 @@ public class CustomAdapter extends BaseAdapter implements View.OnClickListener {
             /******** Set Item Click Listner for LayoutInflater for each row *******/
 
             vi.setOnClickListener(new OnItemClickListener(position,false));
-            holder.adder.setOnClickListener(new OnItemClickListener(position,true));
+            holder.adder.setOnClickListener(new OnItemClickListener(position, true));
         }
         return vi;
     }

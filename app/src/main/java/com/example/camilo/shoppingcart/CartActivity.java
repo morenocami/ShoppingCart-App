@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v7.app.AlertDialog;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -18,12 +17,12 @@ public class CartActivity extends BrowserActivity {
 
     @Override
     protected int setLayout() {
-        return R.layout.customer_browser_activity;
+        return R.layout.browser_activity;
     }
 
     @Override
     protected int getToolbar() {
-        return R.id.review_toolbar;
+        return R.id.browser_toolbar;
     }
 
     @Override
@@ -44,7 +43,7 @@ public class CartActivity extends BrowserActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.review_menu, menu);
+        getMenuInflater().inflate(R.menu.cart_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

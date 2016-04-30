@@ -4,6 +4,8 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,19 +19,20 @@ import java.util.Iterator;
 public abstract class BrowserActivity extends AppCompatActivity {
 
     private ArrayList<ListItemModel> listItems = new ArrayList<>();
-    private TextView cartSize;
+    private TextView listSize;
     private TextView cartTotal;
+    private Button sellerAdder;
     private CustomAdapter adapter;
     private ListView list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(setLayout());
 
-        cartSize=(TextView)findViewById(R.id.browser_cart_size);
+        listSize =(TextView)findViewById(R.id.browser_cart_size);
         cartTotal=(TextView)findViewById(R.id.browser_cart_total);
+        sellerAdder = (Button)findViewById(R.id.seller_add_product);
 
         populateListItems();
         list = (ListView) findViewById(R.id.browser_listView);
@@ -46,11 +49,25 @@ public abstract class BrowserActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        cartSize.setText(ShoppingSession.getInstance().getCartSize());
-        cartTotal.setText(ShoppingSession.getInstance().getCartTotal());
-        listItems.clear();
-        populateListItems();
-        adapter.updateList(listItems);
+        if(this instanceof CustomerActivity) {
+            listSize.setText(ShoppingSession.getInstance().getCartSize());
+            cartTotal.setText(ShoppingSession.getInstance().getCartTotal());
+            cartTotal.setVisibility(View.VISIBLE);
+            sellerAdder.setVisibility(View.GONE);
+
+            listItems.clear();
+            populateListItems();
+            adapter.updateList(listItems);
+        }
+        else if(this instanceof SellerActivity) {
+//            listSize.setText(ShoppingSession.getInstance().getMyInventorySize());
+            cartTotal.setVisibility(View.GONE);
+            sellerAdder.setVisibility(View.VISIBLE);
+
+            listItems.clear();
+            populateListItems();
+            adapter.updateList(listItems);
+        }
         super.onResume();
     }
 
@@ -77,17 +94,17 @@ public abstract class BrowserActivity extends AppCompatActivity {
         if(addRequest){
             if(getContext() instanceof CustomerActivity){
                 if(ShoppingSession.getInstance().addProduct(tempValues.getProductName())) {
-                    cartSize.setText(ShoppingSession.getInstance().getCartSize());
+                    listSize.setText(ShoppingSession.getInstance().getCartSize());
                     cartTotal.setText(ShoppingSession.getInstance().getCartTotal());
                 }
             }
             else if(getContext() instanceof CartActivity){
                 if(ShoppingSession.getInstance().removeProduct(tempValues.getProductName())) {
-                    cartSize.setText(ShoppingSession.getInstance().getCartSize());
+                    listSize.setText(ShoppingSession.getInstance().getCartSize());
                     cartTotal.setText(ShoppingSession.getInstance().getCartTotal());
                 }
                 else{
-                    cartSize.setText(ShoppingSession.getInstance().getCartSize());
+                    listSize.setText(ShoppingSession.getInstance().getCartSize());
                     cartTotal.setText(ShoppingSession.getInstance().getCartTotal());
                 }
             }

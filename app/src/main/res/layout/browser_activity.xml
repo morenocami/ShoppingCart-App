@@ -53,7 +53,15 @@
                 android:paddingRight="10dp"
                 android:singleLine="false"
                 android:textSize="20dp"
-                android:textColor="#ffffff" />
+                android:textColor="#ffffff"
+                android:visibility="gone" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:text="Add new Product"
+                android:id="@+id/seller_add_product"
+                android:visibility="visible" />
 
         </LinearLayout>
 

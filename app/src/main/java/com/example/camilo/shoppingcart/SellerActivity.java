@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -12,9 +13,9 @@ import android.view.MenuItem;
 import java.util.Iterator;
 
 /**
- * Created by Camilo on 4/18/2016.
+ * Created by Camilo on 4/28/2016.
  */
-public class CustomerActivity extends BrowserActivity {
+public class SellerActivity extends BrowserActivity {
 
     @Override
     protected int setLayout() {
@@ -38,14 +39,15 @@ public class CustomerActivity extends BrowserActivity {
 
     @Override
     protected Iterator getIterator() {
-        return ShoppingSession.getInstance().getInventoryIterator();
+        return ShoppingSession.getInstance().getSellerIterator();
     }
+
 
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         //Handle the back button
-        if(keyCode == KeyEvent.KEYCODE_BACK && this==CustomerActivity.this) {
+        if(keyCode == KeyEvent.KEYCODE_BACK && this==SellerActivity.this) {
             //Ask the user if they want to quit
             new AlertDialog.Builder(this)
                     .setIcon(R.drawable.icon_caution)
@@ -56,7 +58,7 @@ public class CustomerActivity extends BrowserActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             ShoppingSession.getInstance().userLogout();
-                            final Intent back = new Intent(CustomerActivity.this, LoginActivity.class);
+                            final Intent back = new Intent(SellerActivity.this, LoginActivity.class);
                             back.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(back);
                         }
@@ -77,15 +79,15 @@ public class CustomerActivity extends BrowserActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.customer_menu, menu);
+        getMenuInflater().inflate(R.menu.seller_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
-            case R.id.action_cart:
-                startActivity(new Intent(CustomerActivity.this, CartActivity.class));
+            case R.id.action_stats:
+                startActivity(new Intent(SellerActivity.this, SellerStatistics.class));
                 return true;
             case R.id.action_settings:
 

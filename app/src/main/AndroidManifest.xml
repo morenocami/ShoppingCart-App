@@ -34,21 +34,27 @@
 
         </activity>
 
-        <activity android:name=".SellerBrowserActivity"
+        <activity android:name=".SellerActivity"
             android:label="My Inventory"
             android:screenOrientation="portrait">
 
         </activity>
 
-        <!--<activity android:name=".Account"-->
-            <!--android:label="Review Cart"-->
-            <!--android:screenOrientation="portrait">-->
+        <activity android:name=".SellerStatistics"
+            android:label="My Statistics"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!--<activity android:name=".SellerActivity"-->
+        <!--android:label="Review Cart"-->
+        <!--android:screenOrientation="portrait">-->
 
         <!--</activity>-->
 
         <!--<activity android:name=".SellerActivity"-->
-            <!--android:label="Review Cart"-->
-            <!--android:screenOrientation="portrait">-->
+        <!--android:label="Review Cart"-->
+        <!--android:screenOrientation="portrait">-->
 
         <!--</activity>-->
 
