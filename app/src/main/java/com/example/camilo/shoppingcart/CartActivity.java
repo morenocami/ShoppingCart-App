@@ -53,9 +53,6 @@ public class CartActivity extends BrowserActivity {
             case R.id.action_home:
                 startActivity(new Intent(CartActivity.this, CustomerActivity.class));
                 return true;
-            case R.id.action_settings:
-
-                return true;
             case R.id.action_logout:
                 new AlertDialog.Builder(this)
                         .setIcon(R.drawable.icon_caution)

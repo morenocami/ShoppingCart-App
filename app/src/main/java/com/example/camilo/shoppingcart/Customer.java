@@ -30,17 +30,16 @@ public class Customer extends User {
             shoppingCart.add(newProduct);
         }
     }
-    public boolean removeFromCart(String productToRemove){
+    public void removeFromCart(String productToRemove){
         for(Product cartItem : shoppingCart){
             if(productToRemove.equals(cartItem.getName())) {
                 if(!cartItem.decrementfromCart()) {
                     shoppingCart.remove(cartItem);
-                    return true;
+                    return;
                 }
                 break;
             }
         }
-        return true;
     }
 
     public double getCartTotal(){

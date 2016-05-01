@@ -8,13 +8,10 @@
         android:title="Statistics"
         app:showAsAction="ifRoom"/>
     <item
-        android:id="@+id/action_settings"
-        android:title="Settings"
-        app:showAsAction="never"/>
-    <item
         android:id="@+id/action_logout"
+        android:icon="@drawable/icon_logout"
         android:title="Log Off"
-        app:showAsAction="never"/>
+        app:showAsAction="ifRoom"/>
 
 
 </menu>

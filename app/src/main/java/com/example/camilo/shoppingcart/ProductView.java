@@ -57,28 +57,6 @@ public class ProductView extends AppCompatActivity {
             case R.id.action_home:
                 onBackPressed();
                 return true;
-            case R.id.action_settings:
-
-                return true;
-            case R.id.action_logout:
-                new AlertDialog.Builder(this)
-                        .setIcon(R.drawable.icon_caution)
-                        .setTitle("Confirm logout")
-                        .setMessage("Are you sure you want to log out?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Session.getInstance().userLogout();
-                                final Intent back = new Intent(ProductView.this, LoginActivity.class);
-                                back.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(back);
-                            }
-
-                        })
-                        .setNegativeButton("No", null)
-                        .show();
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

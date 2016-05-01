@@ -87,9 +87,6 @@ public class CustomerActivity extends BrowserActivity {
             case R.id.action_cart:
                 startActivity(new Intent(CustomerActivity.this, CartActivity.class));
                 return true;
-            case R.id.action_settings:
-
-                return true;
             case R.id.action_logout:
                 onKeyDown(KeyEvent.KEYCODE_BACK, new KeyEvent(0, 0));
                 return true;

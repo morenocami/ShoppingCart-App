@@ -88,9 +88,6 @@ public class SellerActivity extends BrowserActivity {
             case R.id.action_stats:
                 startActivity(new Intent(SellerActivity.this, SellerStatistics.class));
                 return true;
-            case R.id.action_settings:
-
-                return true;
             case R.id.action_logout:
                 onKeyDown(KeyEvent.KEYCODE_BACK, new KeyEvent(0, 0));
                 return true;

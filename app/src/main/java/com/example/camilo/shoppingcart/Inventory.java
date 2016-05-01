@@ -62,20 +62,20 @@ public class Inventory extends ArrayList<Product> implements Serializable{
             e.printStackTrace();
         }
 
-//        //no master inventory exists, populate with fake items
-//        final String username = "sample seller";
-//        this.add(new Product(R.drawable.icon_add_to_cart,
-//                "Add", 100.79, 80, 1, SAMPLE_DESCRIPTION, username));
-//        this.add(new Product(R.drawable.icon_remove_from_cart,
-//                "Remove", 225.24, 180, 2, SAMPLE_DESCRIPTION, username));
-//        this.add(new Product(R.drawable.icon_edit,
-//                "Edit", 49.22, 30, 3, SAMPLE_DESCRIPTION, username));
-//        this.add(new Product(R.drawable.icon_green_check,
-//                "Check", 71.98, 50, 4, SAMPLE_DESCRIPTION, username));
-//        this.add(new Product(R.drawable.icon_settings,
-//                "Settings", 35.50, 20, 5, SAMPLE_DESCRIPTION, username));
-//        this.add(new Product(R.drawable.icon_cart,
-//                "Cart", 15.14, 10, 6, SAMPLE_DESCRIPTION, username));
+        //no master inventory exists, populate with fake items
+        final String username = "sample seller";
+        this.add(new Product(R.drawable.icon_add_to_cart,
+                "Add", 100.79, 80, 1, SAMPLE_DESCRIPTION, username));
+        this.add(new Product(R.drawable.icon_remove_from_cart,
+                "Remove", 225.24, 180, 2, SAMPLE_DESCRIPTION, username));
+        this.add(new Product(R.drawable.icon_edit,
+                "Edit", 49.22, 30, 3, SAMPLE_DESCRIPTION, username));
+        this.add(new Product(R.drawable.icon_green_check,
+                "Check", 71.98, 50, 4, SAMPLE_DESCRIPTION, username));
+        this.add(new Product(R.drawable.icon_settings,
+                "Settings", 35.50, 20, 5, SAMPLE_DESCRIPTION, username));
+        this.add(new Product(R.drawable.icon_cart,
+                "Cart", 15.14, 10, 6, SAMPLE_DESCRIPTION, username));
     }
 
 
@@ -102,5 +102,14 @@ public class Inventory extends ArrayList<Product> implements Serializable{
             }
         }
         return false;
+    }
+
+    public void deleteProduct(String name){
+        for(Product p : this){
+            if(name.equals(p.getName())) {
+                remove(p);
+                return;
+            }
+        }
     }
 }

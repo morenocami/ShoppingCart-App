@@ -11,11 +11,15 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OptionalDataException;
+import java.io.StreamCorruptedException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,13 +63,20 @@ public class LoginActivity extends AppCompatActivity{
         users = new ArrayList<>();
 
         try {
-            FileInputStream fis = openFileInput(USERS_FILE);
+            FileInputStream fis = new FileInputStream(new File(getFilesDir(),USERS_FILE));
             ObjectInputStream ois = new ObjectInputStream(fis);
-            users= (ArrayList<User>)ois.readObject();
-            ois.close();
-        } catch (IOException e) {
+            users = ((ArrayList<User>) ois.readObject());
+            return;
+        }
+        catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (OptionalDataException e) {
+            e.printStackTrace();
+        } catch (StreamCorruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -81,11 +92,12 @@ public class LoginActivity extends AppCompatActivity{
     }
 
     public void login(View v){
+        final String name = username.getText().toString().toLowerCase();
         //if username empty, not alphanumerical, or password empty, WILL NOT try to login
-        if(username.getText().toString().isEmpty())
+        if(name.isEmpty())
             Toast.makeText(getApplicationContext(), "Enter your username.",
                     Toast.LENGTH_SHORT).show();
-        else if(!username.getText().toString().matches("[a-zA-Z0-9]+"))
+        else if(!name.matches("[a-zA-Z0-9]+"))
             Toast.makeText(getApplicationContext(), "Username is not alphanumeric." +
                     " No spaces!", Toast.LENGTH_SHORT).show();
         else if(password.getText().toString().isEmpty())
@@ -103,7 +115,7 @@ public class LoginActivity extends AppCompatActivity{
             if(isNew){
                 //check uniqueness
                 for (User x :users) {
-                    if (x.checkUsername(username.getText().toString())) {
+                    if (x.checkUsername(name)) {
                         Toast.makeText(getApplicationContext(), "Username is taken," +
                                 " try another.", Toast.LENGTH_SHORT).show();
                         button.setEnabled(true);
@@ -115,19 +127,29 @@ public class LoginActivity extends AppCompatActivity{
                 final User newUser;
                 //username unique, adding account
                 if(switchSeller.isChecked()) {
-                    newUser = new Seller(username.getText().toString(),
+                    newUser = new Seller(name,
                             password.getText().toString(), isSeller);
                     users.add(newUser);
                     newUser.login();
                 }
                 else {
-                    newUser = new Customer(username.getText().toString(),
+                    newUser = new Customer(name,
                             password.getText().toString(),isSeller);
                     users.add(newUser);
                     newUser.login();
                 }
 
                 //save new users list
+                try {
+                    FileOutputStream fos = new FileOutputStream(new File(getFilesDir(),USERS_FILE));
+                    ObjectOutputStream oos = new ObjectOutputStream(fos);
+                    oos.writeObject(users);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
                 try {
                     //saves vector to file
                     FileOutputStream fos = openFileOutput(USERS_FILE, MODE_PRIVATE);
@@ -149,7 +171,7 @@ public class LoginActivity extends AppCompatActivity{
             // if password matches, perform customer login or pass switchSeller to next activity and go to appropriate browser
             else {
                 for (int x = 0; x < users.size(); x++) {
-                    if (users.get(x).checkUsername(username.getText().toString())) {
+                    if (users.get(x).checkUsername(name)) {
                         //check if switchSeller
                         if(users.get(x).isSeller()&&isSeller){
                             //check switchSeller password

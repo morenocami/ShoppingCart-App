@@ -6,12 +6,18 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 /**
  * Created by Camilo on 4/30/2016.
@@ -23,6 +29,7 @@ public class ProductCreation extends AppCompatActivity {
     private EditText priceView;
     private EditText qtyView;
     private EditText descriptionView;
+    private int imageResource=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +45,34 @@ public class ProductCreation extends AppCompatActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final Spinner spinner = new Spinner(ProductCreation.this);
+                final ArrayList<Integer> spinnerArray = new ArrayList<>();
+                spinnerArray.add(R.drawable.icon_add_to_cart);
+                spinnerArray.add(R.drawable.icon_back);
+                spinnerArray.add(R.drawable.icon_cart);
+                spinnerArray.add(R.drawable.icon_stats);
+                spinnerArray.add(R.drawable.icon_edit);
+                spinnerArray.add(R.drawable.icon_green_check);
+                spinnerArray.add(R.drawable.icon_refresh);
+                ArrayAdapter<Integer> spinnerArrayAdapter = new ArrayAdapter<>(ProductCreation.this, android.R.layout.simple_spinner_item, spinnerArray);
+                spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(spinnerArrayAdapter);
 
+                new AlertDialog.Builder(ProductCreation.this)
+                        .setIcon(R.drawable.icon_add_to_cart)
+                        .setTitle("Select product image")
+                        .setMessage("Select a choice from the dropdown menu.")
+                        .setView(spinner)
+                        .setPositiveButton("Place Image", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                imageView.setImageResource((Integer)spinner.getSelectedItem());
+                                imageResource=(Integer)spinner.getSelectedItem();
+                            }
+
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .show();
             }
         });
 
@@ -46,15 +80,25 @@ public class ProductCreation extends AppCompatActivity {
         setSupportActionBar(myToolbar);
     }
 
-    private boolean createNewProduct(){
-        return Session.getInstance().createProduct(
-//                imageView.getId(),
-                R.drawable.icon_caution,
+    private int createNewProduct(){
+        if(imageResource == 0)
+            return 0;
+
+        if(nameView.toString().isEmpty() ||
+                priceView.toString().isEmpty() ||
+                qtyView.toString().isEmpty() ||
+                descriptionView.toString().isEmpty())
+            return 1;
+
+        if(Session.getInstance().createProduct(
+                imageResource,
                 nameView.getText().toString(),
                 Double.parseDouble(priceView.getText().toString()),
                 Double.parseDouble(priceView.getText().toString()),
                 Integer.parseInt(qtyView.getText().toString()),
-                descriptionView.getText().toString());
+                descriptionView.getText().toString()))
+            return 3;
+        return 2;
     }
 
     @Override
@@ -74,13 +118,21 @@ public class ProductCreation extends AppCompatActivity {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                if(createNewProduct()) {
-                                    final Intent back = new Intent(ProductCreation.this, SellerActivity.class);
-                                    back.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    startActivity(back);
-                                }
-                                else{
-                                    Toast.makeText(ProductCreation.this,"Item exists!",Toast.LENGTH_SHORT).show();
+                                switch(createNewProduct()) {
+                                    case 0:
+                                        Toast.makeText(ProductCreation.this,"Press the image above to select an image.",Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case 1:
+                                        Toast.makeText(ProductCreation.this,"Fill In all fields.",Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case 2:
+                                        Toast.makeText(ProductCreation.this,"Item exists!",Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case 3:
+                                        final Intent back = new Intent(ProductCreation.this, SellerActivity.class);
+                                        back.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(back);
+                                        break;
                                 }
                             }
 
@@ -94,28 +146,6 @@ public class ProductCreation extends AppCompatActivity {
                             }
 
                         })
-                        .show();
-                return true;
-            case R.id.action_settings:
-
-                return true;
-            case R.id.action_logout:
-                new AlertDialog.Builder(this)
-                        .setIcon(R.drawable.icon_caution)
-                        .setTitle("Confirm logout")
-                        .setMessage("Are you sure you want to log out?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Session.getInstance().userLogout();
-                                final Intent back = new Intent(ProductCreation.this, LoginActivity.class);
-                                back.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(back);
-                            }
-
-                        })
-                        .setNegativeButton("No", null)
                         .show();
                 return true;
             default:

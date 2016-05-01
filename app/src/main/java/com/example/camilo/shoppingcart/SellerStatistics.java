@@ -37,9 +37,6 @@ public class SellerStatistics extends AppCompatActivity {
             case R.id.action_home:
                 startActivity(new Intent(SellerStatistics.this, SellerActivity.class));
                 return true;
-            case R.id.action_settings:
-
-                return true;
             case R.id.action_logout:
                 new AlertDialog.Builder(this)
                         .setIcon(R.drawable.icon_caution)

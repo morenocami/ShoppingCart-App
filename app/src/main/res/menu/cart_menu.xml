@@ -7,14 +7,4 @@
         android:icon="@drawable/icon_back"
         android:title="Settings"
         app:showAsAction="ifRoom"/>
-    <item
-        android:id="@+id/action_settings"
-        android:title="Settings"
-        app:showAsAction="never"/>
-    <item
-        android:id="@+id/action_logout"
-        android:title="Log Off"
-        app:showAsAction="never"/>
-
-
 </menu>

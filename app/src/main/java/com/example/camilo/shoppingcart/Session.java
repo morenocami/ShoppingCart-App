@@ -64,16 +64,13 @@ public class Session extends AppCompatActivity{
         }
         return false;
     }
-//    public boolean deleteProduct(String name){
-//        ((Customer)currentUser).removeFromCart(name);
-//        master.incrementByName(name);
-//        return true;
-//    }
+    public void deleteProduct(String name){
+        ((Seller)currentUser).removeFromInventory(name);
+        master.deleteProduct(name);
+        master.saveMaster(file);
+    }
     public void updateProduct(String name, int newQuantity){
-        if(newQuantity==0)
-            ((Seller)currentUser).removeFromInventory(name);
-        else
-            ((Seller)currentUser).updateProduct(name, newQuantity);
+        ((Seller)currentUser).updateProduct(name, newQuantity);
     }
     public String getSellerInventorySize(){
         return "Items: " + ((Seller)currentUser).getMyInventorySize();

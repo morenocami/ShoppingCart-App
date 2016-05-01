@@ -69,10 +69,17 @@ public abstract class BrowserActivity extends AppCompatActivity {
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
+        try {
+            Session.getInstance().saveMaster();
+        }
+        catch (NullPointerException n){
+            n.printStackTrace();
+        }
         if(hasFocus){
             if(this instanceof CustomerActivity || this instanceof CartActivity) {
                 listSize.setText(Session.getInstance().getCartSize());
                 cartTotal.setText(Session.getInstance().getCartTotal());
+
                 cartTotal.setVisibility(View.VISIBLE);
                 sellerAdder.setVisibility(View.GONE);
 
@@ -88,21 +95,13 @@ public abstract class BrowserActivity extends AppCompatActivity {
 
                 listItems.clear();
                 populateListItems();
-                adapter.updateList(listItems);
+                if(listItems.isEmpty())
+                    list.setAdapter(new CustomAdapter( getContext(), listItems, getRes() ));
+                else
+                    adapter.updateList(listItems);
             }
         }
         super.onWindowFocusChanged(hasFocus);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        try {
-            Session.getInstance().saveMaster();
-        }
-        catch (NullPointerException n){
-            n.printStackTrace();
-        }
     }
 
     private void populateListItems() {
@@ -132,29 +131,24 @@ public abstract class BrowserActivity extends AppCompatActivity {
 
         //a request is when the right button is pressed
         if(request){
-            //the button in this activity is to addproduct to cart
+            //add product to cart
             if(getContext() instanceof CustomerActivity){
                 if(Session.getInstance().addProductToCart(item.getProductName())) {
                     listSize.setText(Session.getInstance().getCartSize());
                     cartTotal.setText(Session.getInstance().getCartTotal());
                 }
             }
-            //the button in this activity is to remove from cart
+            //remove from cart
             else if(getContext() instanceof CartActivity){
-                if(Session.getInstance().removeFromCartByName(item.getProductName())) {
-                    listSize.setText(Session.getInstance().getCartSize());
-                    cartTotal.setText(Session.getInstance().getCartTotal());
-                }
-                else{
-                    listSize.setText(Session.getInstance().getCartSize());
-                    cartTotal.setText(Session.getInstance().getCartTotal());
-                }
+                Session.getInstance().removeFromCartByName(item.getProductName());
+                listSize.setText(Session.getInstance().getCartSize());
+                cartTotal.setText(Session.getInstance().getCartTotal());
+
             }
-            //the button in this activity is to edit an item's quantity
+            //popup to edit an item's quantity
             else if(getContext() instanceof SellerActivity){
                 final EditText input = new EditText(getContext());
                 input.setInputType(InputType.TYPE_CLASS_NUMBER);
-                input.setWidth(30);
                 new AlertDialog.Builder(this)
                         .setIcon(R.drawable.icon_refresh)
                         .setTitle("Confirm quantity")
@@ -163,12 +157,20 @@ public abstract class BrowserActivity extends AppCompatActivity {
                         .setPositiveButton("Update", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Session.getInstance().updateProduct(item.getProductName(),
-                                        Integer.parseInt(input.getText().toString()));
+                                if (!input.getText().toString().isEmpty()) {
+                                    Session.getInstance().updateProduct(item.getProductName(),
+                                            Integer.parseInt(input.getText().toString()));
+                                }
                             }
 
                         })
                         .setNegativeButton("Cancel", null)
+                        .setNeutralButton("DELETE", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Session.getInstance().deleteProduct(item.getProductName());
+                            }
+                        })
                         .show();
             }
             listItems.clear();
