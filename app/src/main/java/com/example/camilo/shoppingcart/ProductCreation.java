@@ -6,15 +6,15 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Pair;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -30,6 +30,7 @@ public class ProductCreation extends AppCompatActivity {
     private EditText qtyView;
     private EditText descriptionView;
     private int imageResource=0;
+    private boolean isKeyboardHidden = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +77,17 @@ public class ProductCreation extends AppCompatActivity {
             }
         });
 
+        final View activityRootView = findViewById(R.id.product_view_root);
+        activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int heightDiff = activityRootView.getRootView().getHeight() - activityRootView.getHeight();
+                if (heightDiff > 100) { // if more than 100 pixels, its probably a keyboard...
+                    isKeyboardHidden=false;
+                }
+            }
+        });
+
         final Toolbar myToolbar = (Toolbar) findViewById(R.id.product_view_toolbar);
         setSupportActionBar(myToolbar);
     }
@@ -101,16 +113,58 @@ public class ProductCreation extends AppCompatActivity {
         return 2;
     }
 
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        //Handle the back button
+        if(keyCode == KeyEvent.KEYCODE_BACK && this==ProductCreation.this) {
+            if(!isKeyboardHidden)
+                isKeyboardHidden=true;
+            else{
+                //Ask the user if they want to quit
+                new AlertDialog.Builder(this)
+                        .setIcon(R.drawable.icon_caution)
+                        .setTitle("Confirm")
+                        .setMessage("Cancel product creation?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                final Intent back = new Intent(ProductCreation.this, SellerActivity.class);
+                                back.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(back);
+                            }
+
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+            }
+            return true;
+        }
+        else if(event.equals(new KeyEvent(0,0))) {
+            return true;
+        }
+        else{
+            return super.onKeyDown(keyCode, event);
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.cart_menu, menu);
+        menu.findItem(R.id.action_payment).setIcon(R.drawable.icon_green_check);
+        menu.findItem(R.id.action_payment).setTitle("Create Product");
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
-            case R.id.action_home:
+            case R.id.action_back:
+                final Intent back = new Intent(ProductCreation.this, SellerActivity.class);
+                back.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(back);
+                return true;
+            case R.id.action_payment:
                 new AlertDialog.Builder(this)
                         .setIcon(R.drawable.icon_caution)
                         .setTitle("Confirm product creation")
@@ -137,17 +191,8 @@ public class ProductCreation extends AppCompatActivity {
                             }
 
                         })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                final Intent back = new Intent(ProductCreation.this, SellerActivity.class);
-                                back.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(back);
-                            }
-
-                        })
+                        .setNegativeButton("No", null)
                         .show();
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

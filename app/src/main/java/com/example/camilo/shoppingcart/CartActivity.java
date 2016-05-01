@@ -5,8 +5,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import java.util.Iterator;
 
@@ -41,36 +43,40 @@ public class CartActivity extends BrowserActivity {
     }
 
 
+    private void showCustomDialog() {
+        LayoutInflater mInflater = this.getLayoutInflater();
+        View mView = mInflater.inflate(R.layout.payment_layout, null);
+        new AlertDialog.Builder(this)
+                .setIcon(R.drawable.icon_payment)
+                .setTitle("Confirm transaction")
+                .setMessage("If you've reviewed your cart, enter your payment information to complete your purchase.")
+                .setView(mView)
+                .setPositiveButton("Purchase", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Session.getInstance().checkout();
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.cart_menu, menu);
+        menu.findItem(R.id.action_payment).setIcon(R.drawable.icon_payment);
+        menu.findItem(R.id.action_payment).setTitle("Checkout");
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
-            case R.id.action_home:
-                startActivity(new Intent(CartActivity.this, CustomerActivity.class));
+        switch (item.getItemId()) {
+            case R.id.action_payment:
+                showCustomDialog();
                 return true;
-            case R.id.action_logout:
-                new AlertDialog.Builder(this)
-                        .setIcon(R.drawable.icon_caution)
-                        .setTitle("Confirm logout")
-                        .setMessage("Are you sure you want to log out?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Session.getInstance().userLogout();
-                                final Intent back = new Intent(CartActivity.this, LoginActivity.class);
-                                back.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(back);
-                            }
-
-                        })
-                        .setNegativeButton("No", null)
-                        .show();
+            case R.id.action_back:
+                onBackPressed();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

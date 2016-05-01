@@ -3,8 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_home"
+        android:id="@+id/action_payment"
+        android:icon="@drawable/icon_payment"
+        android:title="Checkout"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_back"
         android:icon="@drawable/icon_back"
-        android:title="Settings"
+        android:title="Back"
         app:showAsAction="ifRoom"/>
 </menu>

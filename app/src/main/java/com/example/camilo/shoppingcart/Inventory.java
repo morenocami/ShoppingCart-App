@@ -1,6 +1,7 @@
 package com.example.camilo.shoppingcart;
 
 import android.content.Context;
+import android.support.v4.util.Pair;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -63,7 +64,7 @@ public class Inventory extends ArrayList<Product> implements Serializable{
         }
 
         //no master inventory exists, populate with fake items
-        final String username = "sample seller";
+        final String username = "default";
         this.add(new Product(R.drawable.icon_add_to_cart,
                 "Add", 100.79, 80, 1, SAMPLE_DESCRIPTION, username));
         this.add(new Product(R.drawable.icon_remove_from_cart,
@@ -79,7 +80,7 @@ public class Inventory extends ArrayList<Product> implements Serializable{
     }
 
 
-//customer functions
+//master functions
     public Product getCloneByName(String name){
         for(Product p : this){
             if(p.getName().equals(name)) {
@@ -88,27 +89,36 @@ public class Inventory extends ArrayList<Product> implements Serializable{
         }
         return null;
     }
-    public void incrementByName(String name){
+    public int getQtyByName(String name){
         for(Product p : this){
-            if(p.getName().equals(name)) {
-                p.incrementQuantity();
+            if(name.equals(p.getName())) {
+                return p.getQty();
             }
         }
+        return 0;
     }
-    public boolean decrementByName(String name){
-        for(Product p : this){
-            if(p.getName().equals(name)) {
-                return p.decrementfromInventory();
-            }
-        }
-        return false;
-    }
-
     public void deleteProduct(String name){
         for(Product p : this){
             if(name.equals(p.getName())) {
                 remove(p);
                 return;
+            }
+        }
+    }
+    public void checkout(ArrayList<Pair<String,Integer>> items){
+        for(Pair pair : items){
+            for(Product p : this){
+                if(p.getName().equals(pair.first)) {
+                    p.setQty(p.getQty() - (Integer)pair.second);
+                }
+            }
+        }
+
+    }
+    public void updateQty(String name, int newQuantity){
+        for(Product p : this){
+            if(p.getName().equals(name)) {
+                p.setQty(newQuantity);
             }
         }
     }

@@ -1,9 +1,11 @@
 package com.example.camilo.shoppingcart;
 
 import android.content.Context;
+import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
@@ -25,16 +27,10 @@ public class Session extends AppCompatActivity{
 
 //customer functions
     public boolean addProductToCart(String name){
-        if(master.decrementByName(name)) {
-            ((Customer) currentUser).addToCart(master.getCloneByName(name));
-            return true;
-        }
-        return false;
+        return ((Customer) currentUser).addToCart(master.getCloneByName(name), master.getQtyByName(name));
     }
-    public boolean removeFromCartByName(String name){
+    public void removeFromCartByName(String name){
         ((Customer)currentUser).removeFromCart(name);
-        master.incrementByName(name);
-        return true;
     }
     public String getCartTotal(){
         return "$ "+String.format("%.2f", ((Customer) currentUser).getCartTotal());
@@ -44,6 +40,10 @@ public class Session extends AppCompatActivity{
     }
     public Iterator getCartIterator(){
         return ((Customer)currentUser).getIterator();
+    }
+    public void checkout(){
+        ArrayList<Pair<String, Integer>> items = ((Customer) currentUser).checkout();
+        master.checkout(items);
     }
 ////////////////////////////
 
@@ -71,6 +71,7 @@ public class Session extends AppCompatActivity{
     }
     public void updateProduct(String name, int newQuantity){
         ((Seller)currentUser).updateProduct(name, newQuantity);
+        master.updateQty(name, newQuantity);
     }
     public String getSellerInventorySize(){
         return "Items: " + ((Seller)currentUser).getMyInventorySize();

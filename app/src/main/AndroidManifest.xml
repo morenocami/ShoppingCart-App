@@ -23,7 +23,7 @@
         </activity>
 
         <activity android:name=".CustomerActivity"
-            android:label="Browse"
+            android:label="Browse All Products"
             android:screenOrientation="portrait">
 
         </activity>

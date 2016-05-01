@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 /**
  * Created by Camilo on 4/29/2016.
@@ -34,7 +33,7 @@ public class SellerStatistics extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
-            case R.id.action_home:
+            case R.id.action_back:
                 startActivity(new Intent(SellerStatistics.this, SellerActivity.class));
                 return true;
             case R.id.action_logout:

@@ -46,6 +46,7 @@ public abstract class BrowserActivity extends AppCompatActivity {
 
         if(this instanceof SellerActivity) {
             sellerAdder.setOnClickListener(new View.OnClickListener() {
+
                 @Override
                 public void onClick(View v) {
                     startActivity(new Intent(getContext(),ProductCreation.class));
@@ -64,7 +65,15 @@ public abstract class BrowserActivity extends AppCompatActivity {
 
         final Toolbar myToolbar = (Toolbar) findViewById(getToolbar());
         setSupportActionBar(myToolbar);
+    }
 
+    private void refreshList(){
+        listItems.clear();
+        populateListItems();
+        if(listItems.isEmpty())
+            list.setAdapter(new CustomAdapter( getContext(), listItems, getRes() ));
+        else
+            adapter.updateList(listItems);
     }
 
     @Override
@@ -76,29 +85,19 @@ public abstract class BrowserActivity extends AppCompatActivity {
             n.printStackTrace();
         }
         if(hasFocus){
+            refreshList();
             if(this instanceof CustomerActivity || this instanceof CartActivity) {
                 listSize.setText(Session.getInstance().getCartSize());
                 cartTotal.setText(Session.getInstance().getCartTotal());
 
                 cartTotal.setVisibility(View.VISIBLE);
                 sellerAdder.setVisibility(View.GONE);
-
-                listItems.clear();
-                populateListItems();
-                adapter.updateList(listItems);
             }
             else if(this instanceof SellerActivity) {
                 listSize.setText(Session.getInstance().getSellerInventorySize());
 
                 cartTotal.setVisibility(View.GONE);
                 sellerAdder.setVisibility(View.VISIBLE);
-
-                listItems.clear();
-                populateListItems();
-                if(listItems.isEmpty())
-                    list.setAdapter(new CustomAdapter( getContext(), listItems, getRes() ));
-                else
-                    adapter.updateList(listItems);
             }
         }
         super.onWindowFocusChanged(hasFocus);
@@ -137,6 +136,8 @@ public abstract class BrowserActivity extends AppCompatActivity {
                     listSize.setText(Session.getInstance().getCartSize());
                     cartTotal.setText(Session.getInstance().getCartTotal());
                 }
+                else
+                    Toast.makeText(getContext(), "No more items available to place in cart.", Toast.LENGTH_SHORT).show();
             }
             //remove from cart
             else if(getContext() instanceof CartActivity){
@@ -173,12 +174,7 @@ public abstract class BrowserActivity extends AppCompatActivity {
                         })
                         .show();
             }
-            listItems.clear();
-            populateListItems();
-            if(listItems.isEmpty())
-                list.setAdapter(new CustomAdapter( getContext(), listItems, getRes() ));
-            else
-                adapter.updateList(listItems);
+            refreshList();
         }
         //touching the rest of the list item results in the product's full view
         else {

@@ -13,7 +13,6 @@ public class Seller extends User {
     }
 
     public Iterator getIterator(){
-//        myInventory.load();
         return myInventory.iterator();
     }
 
@@ -63,9 +62,7 @@ public class Seller extends User {
         }
     }
 
-//    public void loadMyInventory(){
-//        myInventory.load();
-//    }
+
 
     private Inventory myInventory;
 }
