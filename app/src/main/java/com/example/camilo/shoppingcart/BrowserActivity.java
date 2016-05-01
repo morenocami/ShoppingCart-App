@@ -15,6 +15,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -35,9 +37,12 @@ public abstract class BrowserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(setLayout());
 
+
         listSize =(TextView)findViewById(R.id.browser_cart_size);
         cartTotal=(TextView)findViewById(R.id.browser_cart_total);
         sellerAdder = (Button)findViewById(R.id.seller_add_product);
+
+        Session.getInstance().load();
 
         if(this instanceof SellerActivity) {
             sellerAdder.setOnClickListener(new View.OnClickListener() {
@@ -48,7 +53,6 @@ public abstract class BrowserActivity extends AppCompatActivity {
             });
         }
 
-        Session.getInstance().refreshMyInventory();
         populateListItems();
         list = (ListView) findViewById(R.id.browser_listView);
         adapter = new CustomAdapter( getContext(), listItems, getRes() );
@@ -60,6 +64,7 @@ public abstract class BrowserActivity extends AppCompatActivity {
 
         final Toolbar myToolbar = (Toolbar) findViewById(getToolbar());
         setSupportActionBar(myToolbar);
+
     }
 
     @Override
@@ -89,17 +94,30 @@ public abstract class BrowserActivity extends AppCompatActivity {
         super.onWindowFocusChanged(hasFocus);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try {
+            Session.getInstance().saveMaster();
+        }
+        catch (NullPointerException n){
+            n.printStackTrace();
+        }
+    }
 
     private void populateListItems() {
         Iterator iterator = getIterator();
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.DOWN);
+
         while (iterator.hasNext()) {
             final ListItemModel listItem = new ListItemModel();
             final Product x = (Product) iterator.next();
 
             listItem.setProductName(x.getName());
             listItem.setImageResource(x.getImageResource());
-            listItem.setPrice(Double.toString(x.getSellPrice()));
-            listItem.setCost(Double.toString(x.getCost()));
+            listItem.setPrice(df.format(x.getSellPrice()));
+            listItem.setCost(df.format(x.getCost()));
             listItem.setQty(x.getQty());
             listItem.setDescription(x.getDescription());
 
@@ -162,14 +180,9 @@ public abstract class BrowserActivity extends AppCompatActivity {
         }
         //touching the rest of the list item results in the product's full view
         else {
-            if(getContext() instanceof CustomerActivity || getContext() instanceof CartActivity) {
-                Bundle b = new Bundle();
-                b.putSerializable("content", item);
-                startActivity(new Intent(getContext(), ProductView.class).putExtras(b));
-            }
-            else
-                startActivity(new Intent(getContext(), ProductCreation.class));
-
+            Bundle b = new Bundle();
+            b.putSerializable("content", item);
+            startActivity(new Intent(getContext(), ProductView.class).putExtras(b));
         }
     }
 

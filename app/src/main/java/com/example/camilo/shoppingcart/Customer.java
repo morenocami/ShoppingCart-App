@@ -45,7 +45,7 @@ public class Customer extends User {
 
     public double getCartTotal(){
         double sum=0;
-        for (Product p:shoppingCart) {
+        for (Product p : shoppingCart) {
             sum += (p.getSellPrice()*p.getQty());
         }
         return sum;

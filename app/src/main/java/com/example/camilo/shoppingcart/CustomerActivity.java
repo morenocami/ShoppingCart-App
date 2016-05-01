@@ -38,7 +38,7 @@ public class CustomerActivity extends BrowserActivity {
 
     @Override
     protected Iterator getIterator() {
-        return Session.getInstance().getInventoryIterator();
+        return Session.getInstance().getMasterIterator();
     }
 
 
@@ -91,7 +91,7 @@ public class CustomerActivity extends BrowserActivity {
 
                 return true;
             case R.id.action_logout:
-                onKeyDown (KeyEvent.KEYCODE_BACK, new KeyEvent(0, 0));
+                onKeyDown(KeyEvent.KEYCODE_BACK, new KeyEvent(0, 0));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

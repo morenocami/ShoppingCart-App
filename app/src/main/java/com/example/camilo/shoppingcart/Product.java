@@ -2,10 +2,12 @@ package com.example.camilo.shoppingcart;
 
 import android.media.Image;
 
+import java.io.Serializable;
+
 /**
  * Created by Camilo on 4/25/2016.
  */
-public class Product implements Comparable {
+public class Product implements Comparable, Serializable {
 
     Product(int imageResource, String name, double sellPrice, double cost, int qty, String description, String seller){
         this.name=name;

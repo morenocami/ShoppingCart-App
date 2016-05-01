@@ -13,6 +13,7 @@ public class Seller extends User {
     }
 
     public Iterator getIterator(){
+//        myInventory.load();
         return myInventory.iterator();
     }
 
@@ -34,14 +35,14 @@ public class Seller extends User {
 
     public boolean addNewProduct(Product newProduct){
         if(myInventory.isEmpty())
-            myInventory.addToBoth(newProduct);
+            myInventory.add(newProduct);
         else{
             for(Product p : myInventory){
                 if(newProduct.getName().equals(p.getName())) {
                     return false;
                 }
             }
-            myInventory.addToBoth(newProduct);
+            myInventory.add(newProduct);
         }
         return true;
     }
@@ -61,6 +62,10 @@ public class Seller extends User {
             }
         }
     }
+
+//    public void loadMyInventory(){
+//        myInventory.load();
+//    }
 
     private Inventory myInventory;
 }

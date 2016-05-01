@@ -53,9 +53,9 @@ public class SellerActivity extends BrowserActivity {
                     .setTitle("Confirm logout")
                     .setMessage("Are you sure you want to log out?")
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            Session.getInstance().saveMaster();
                             Session.getInstance().userLogout();
                             final Intent back = new Intent(SellerActivity.this, LoginActivity.class);
                             back.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -92,7 +92,7 @@ public class SellerActivity extends BrowserActivity {
 
                 return true;
             case R.id.action_logout:
-                onKeyDown (KeyEvent.KEYCODE_BACK, new KeyEvent(0, 0));
+                onKeyDown(KeyEvent.KEYCODE_BACK, new KeyEvent(0, 0));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -45,7 +45,8 @@
                 android:textColor="#ffffff"
                 android:hint="Product Name"
                 android:textColorHint="#9f9f9f"
-                android:inputType="text" />
+                android:inputType="text"
+                android:text="Test" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -78,7 +79,8 @@
                         android:textColor="#ffffff"
                         android:layout_toEndOf="@+id/textView10"
                         android:hint="xxx.xx"
-                        android:inputType="numberDecimal" />
+                        android:inputType="numberDecimal"
+                        android:text="25.25" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -104,7 +106,8 @@
                         android:textSize="20sp"
                         android:textColor="#ffffff"
                         android:hint="x"
-                        android:inputType="number" />
+                        android:inputType="number"
+                        android:text="5" />
                 </LinearLayout>
 
             </RelativeLayout>

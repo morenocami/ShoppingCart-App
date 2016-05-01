@@ -37,6 +37,8 @@ public class LoginActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
 
+        Session.getInstance().setFilesDir(this.getFilesDir());
+
         username = (TextView) findViewById(R.id.login_editText1);
         password = (TextView) findViewById(R.id.login_editText2);
         switchNewUser = (Switch)findViewById(R.id.login_switch1);
@@ -44,11 +46,10 @@ public class LoginActivity extends AppCompatActivity{
         switchSeller.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     username.setText("b");
                     password.setText("b");
-                }
-                else{
+                } else {
                     username.setText("a");
                     password.setText("a");
                 }
