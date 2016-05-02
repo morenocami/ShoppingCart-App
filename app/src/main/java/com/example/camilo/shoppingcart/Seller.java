@@ -23,15 +23,6 @@ public class Seller extends User {
         return count;
     }
 
-    public double getInventoryTotal(){
-        double sum=0;
-        for (Product p:myInventory) {
-            sum += (p.getSellPrice()*p.getQty());
-        }
-        return sum;
-    }
-
-
     public boolean addNewProduct(Product newProduct){
         if(myInventory.isEmpty())
             myInventory.add(newProduct);
@@ -43,6 +34,7 @@ public class Seller extends User {
             }
             myInventory.add(newProduct);
         }
+        currentCost = getInventoryTotal();
         return true;
     }
     public boolean removeFromInventory(String productToRemove){
@@ -51,6 +43,7 @@ public class Seller extends User {
                 myInventory.remove(product);
             }
         }
+        currentCost = getInventoryTotal();
         return true;
     }
 
@@ -60,9 +53,39 @@ public class Seller extends User {
                 p.setQty(newQuantity);
             }
         }
+        currentCost = getInventoryTotal();
+    }
+
+//    public void updateStatistics(){
+//        if(lastInventoryState==null){
+//            return;
+//        }
+//        for(SerializableStringPair<String, Integer> last : lastInventoryState){
+//                    for(Product p : myInventory){
+//                        if(last.first.equals(p.getName())){
+//                            if(p.getQty()<last.second) {
+//                                revenue += (last.second - p.getQty()) * p.getSellPrice();
+//                                costs += (last.second - p.getQty()) * p.getCost();
+//                            }
+//                        }
+//                    }
+//                }
+//        profit += revenue - costs;
+//    }
+
+    private double getInventoryTotal(){
+        double sum=0;
+        for (Product p:myInventory) {
+            sum += (p.getCost() * p.getQty());
+        }
+        return sum;
+    }
+
+    public double[] getStats() {
+        return new double[]{profit, revenue, costs, currentCost};
     }
 
 
-
     private Inventory myInventory;
+    private double profit=0, revenue=0, costs=0, currentCost=0;
 }

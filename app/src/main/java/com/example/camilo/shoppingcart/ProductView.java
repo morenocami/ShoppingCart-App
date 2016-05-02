@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -21,6 +22,7 @@ public class ProductView extends AppCompatActivity {
         ImageView imageView = (ImageView) findViewById(R.id.product_image_full);
         EditText nameView = (EditText) findViewById(R.id.product_name_full);
         EditText priceView = (EditText) findViewById(R.id.product_price_full);
+        EditText costView = (EditText) findViewById(R.id.product_cost_full);
         EditText qtyView = (EditText) findViewById(R.id.product_qty_full);
         EditText descriptionView = (EditText) findViewById(R.id.product_description_full);
 
@@ -36,6 +38,14 @@ public class ProductView extends AppCompatActivity {
         priceView.setKeyListener(null);
         qtyView.setKeyListener(null);
         descriptionView.setKeyListener(null);
+
+        View v = findViewById(R.id.product_view_invoice);
+        v.setVisibility(View.GONE);
+        if(Session.getInstance().isSeller()){
+            costView.setText("" + item.getCost());
+            costView.setKeyListener(null);
+            v.setVisibility(View.VISIBLE);
+            }
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.product_view_toolbar);
         setSupportActionBar(toolbar);

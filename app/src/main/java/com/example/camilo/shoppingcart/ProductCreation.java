@@ -27,6 +27,7 @@ public class ProductCreation extends AppCompatActivity {
     private ImageView imageView;
     private EditText nameView;
     private EditText priceView;
+    private EditText costView;
     private EditText qtyView;
     private EditText descriptionView;
     private int imageResource=0;
@@ -40,6 +41,7 @@ public class ProductCreation extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.product_image_full);
         nameView = (EditText) findViewById(R.id.product_name_full);
         priceView = (EditText) findViewById(R.id.product_price_full);
+        costView = (EditText) findViewById(R.id.product_cost_full);
         qtyView = (EditText) findViewById(R.id.product_qty_full);
         descriptionView = (EditText) findViewById(R.id.product_description_full);
 
@@ -96,17 +98,18 @@ public class ProductCreation extends AppCompatActivity {
         if(imageResource == 0)
             return 0;
 
-        if(nameView.toString().isEmpty() ||
-                priceView.toString().isEmpty() ||
-                qtyView.toString().isEmpty() ||
-                descriptionView.toString().isEmpty())
+        if(nameView.getText().toString().isEmpty() ||
+                priceView.getText().toString().isEmpty() ||
+                costView.getText().toString().isEmpty() ||
+                qtyView.getText().toString().isEmpty() ||
+                descriptionView.getText().toString().isEmpty())
             return 1;
 
         if(Session.getInstance().createProduct(
                 imageResource,
                 nameView.getText().toString(),
                 Double.parseDouble(priceView.getText().toString()),
-                Double.parseDouble(priceView.getText().toString()),
+                Double.parseDouble(costView.getText().toString()),
                 Integer.parseInt(qtyView.getText().toString()),
                 descriptionView.getText().toString()))
             return 3;

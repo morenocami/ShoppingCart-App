@@ -49,6 +49,9 @@ public class Session extends AppCompatActivity{
 
 
     //seller functions
+    public boolean isSeller(){
+        return currentUser.isSeller();
+    }
     public boolean createProduct(int resource, String name, double price, double cost, int qty, String description){
         //check for item uniqueness by name
         for(Product p: master){
@@ -82,7 +85,9 @@ public class Session extends AppCompatActivity{
     public String getSellerName(){
         return currentUser.getUsername();
     }
-
+    public double[] getStats(){
+        return ((Seller)currentUser).getStats();
+        }
 
     //general functions
     public Iterator getMasterIterator(){

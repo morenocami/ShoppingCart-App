@@ -45,12 +45,6 @@ public class Product implements Comparable, Serializable {
         this.qty=qty;
     }
 
-    public boolean decrementfromInventory(){
-        if(qty==0)
-            return false;
-        qty--;
-        return true;
-    }
     public boolean decrementfromCart(){
         if(qty==1)
             return false;

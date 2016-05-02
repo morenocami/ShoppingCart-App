@@ -16,8 +16,8 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:id="@+id/scrollView3"
         android:fillViewport="true">
 
@@ -27,105 +27,146 @@
             android:layout_height="fill_parent"
             android:background="#c13759ff">
 
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/product_image_full"
-                android:layout_gravity="center"
-                android:src="@drawable/icon_add_to_cart" />
-
-            <EditText
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/product_name_full"
-                android:textSize="25sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:padding="10dp"
-                android:background="#000000"
-                android:textColor="#ffffff"
-                android:hint="Product Name"
-                android:textColorHint="#9f9f9f"
-                android:inputType="text"
-                android:text="Test" />
+                android:layout_height="fill_parent">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="20dp"
-                android:background="#4359ff">
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
+                <ImageView
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true">
+                    android:id="@+id/product_image_full"
+                    android:layout_gravity="center"
+                    android:src="@drawable/icon_add_to_cart" />
 
-                    <TextView
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/product_name_full"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:background="#000000"
+                    android:textColor="#ffffff"
+                    android:hint="Product Name"
+                    android:textColorHint="#9f9f9f"
+                    android:inputType="text" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp"
+                    android:background="#4359ff">
+
+                    <LinearLayout
+                        android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="$"
                         android:layout_alignParentStart="true"
-                        android:textStyle="bold"
-                        android:textSize="20sp"
-                        android:textColor="#ffffff"
-                        android:id="@+id/textView10" />
+                        android:gravity="center">
 
-                    <EditText
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sell\nPrice:"
+                            android:layout_alignParentStart="true"
+                            android:textStyle="bold"
+                            android:textSize="15dp"
+                            android:textColor="#ffffff"
+                            android:id="@+id/textView10"
+                            android:gravity="center" />
+
+                        <EditText
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/product_price_full"
+                            android:textStyle="bold"
+                            android:textSize="20sp"
+                            android:textColor="#ffffff"
+                            android:layout_toEndOf="@+id/textView10"
+                            android:hint="xxx.xx"
+                            android:inputType="numberDecimal" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/product_price_full"
-                        android:textStyle="bold"
-                        android:textSize="20sp"
-                        android:textColor="#ffffff"
-                        android:layout_toEndOf="@+id/textView10"
-                        android:hint="xxx.xx"
-                        android:inputType="numberDecimal"
-                        android:text="25.25" />
-                </LinearLayout>
+                        android:layout_alignParentStart="false"
+                        android:layout_alignParentEnd="false"
+                        android:layout_alignWithParentIfMissing="false"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center"
+                        android:id="@+id/product_view_invoice">
 
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true" >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Invoice\nPrice:"
+                            android:layout_alignParentStart="true"
+                            android:textStyle="bold"
+                            android:textSize="15dp"
+                            android:textColor="#ffffff"
+                            android:id="@+id/textView7"
+                            android:gravity="center" />
 
-                    <TextView
+                        <EditText
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/product_cost_full"
+                            android:textStyle="bold"
+                            android:textSize="20sp"
+                            android:textColor="#ffffff"
+                            android:layout_toEndOf="@+id/textView7"
+                            android:hint="xxx.xx"
+                            android:inputType="numberDecimal" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Qty: "
-                        android:id="@+id/textView2"
-                        android:textStyle="bold"
-                        android:textSize="20sp"
-                        android:textColor="#ffffff" />
+                        android:layout_alignParentEnd="true"
+                        android:gravity="center">
 
-                    <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/product_qty_full"
-                        android:textStyle="bold"
-                        android:textSize="20sp"
-                        android:textColor="#ffffff"
-                        android:hint="x"
-                        android:inputType="number"
-                        android:text="5" />
-                </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Available\nquantity:"
+                            android:id="@+id/textView2"
+                            android:textStyle="bold"
+                            android:textSize="15dp"
+                            android:textColor="#ffffff"
+                            android:gravity="center" />
 
-            </RelativeLayout>
+                        <EditText
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/product_qty_full"
+                            android:textStyle="bold"
+                            android:textSize="20sp"
+                            android:textColor="#ffffff"
+                            android:hint="xx"
+                            android:inputType="number" />
+                    </LinearLayout>
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/product_description_full"
-                android:textSize="15sp"
-                android:scrollIndicators="right"
-                android:typeface="serif"
-                android:padding="10dp"
-                android:textAlignment="viewStart"
-                android:hint="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-                android:textColorHint="#3f3f3f"
-                android:inputType="textMultiLine"
-                android:gravity="top" />
+                </RelativeLayout>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/product_description_full"
+                    android:textSize="15sp"
+                    android:scrollIndicators="right"
+                    android:typeface="serif"
+                    android:padding="10dp"
+                    android:textAlignment="viewStart"
+                    android:hint="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                    android:textColorHint="#3f3f3f"
+                    android:inputType="textMultiLine"
+                    android:gravity="top" />
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
