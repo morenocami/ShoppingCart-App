@@ -9,6 +9,8 @@ import java.io.Serializable;
  */
 public class Product implements Comparable, Serializable {
 
+    private static final long serialVersionUID = 315684651;
+
     Product(int imageResource, String name, double sellPrice, double cost, int qty, String description, String seller){
         this.name=name;
         this.sellPrice=sellPrice;
@@ -45,12 +47,6 @@ public class Product implements Comparable, Serializable {
         this.qty=qty;
     }
 
-    public boolean decrementfromInventory(){
-        if(qty==0)
-            return false;
-        qty--;
-        return true;
-    }
     public boolean decrementfromCart(){
         if(qty==1)
             return false;
@@ -69,6 +65,8 @@ public class Product implements Comparable, Serializable {
     protected Object singleClone() {
         return new Product(this.imageResource, this.name, this.sellPrice, this.cost, 1, this.description, this.seller);
     }
+
+
 
     private int qty;
     private String name;

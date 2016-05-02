@@ -1,23 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="#342c2c">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/product_view_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp" />
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#63c458"
+        android:layout_margin="20dp"
         android:gravity="center">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView" />
+            android:text="Profit: "
+            android:id="@+id/textView"
+            android:textIsSelectable="true"
+            android:textSize="25dp"
+            android:typeface="serif"
+            android:password="false"
+            android:layout_gravity="center_horizontal"
+            android:textStyle="bold" />
 
-        <Button
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/profit"
+            android:textIsSelectable="true"
+            android:textSize="25dp"
+            android:typeface="monospace"
+            android:password="false"
+            android:gravity="center_vertical|right"
+            android:numeric="decimal"
+            android:text="$x,xxx.xx"
+            android:layout_gravity="center_horizontal"
+            android:paddingRight="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#58a2ca"
+        android:layout_margin="20dp"
+        android:gravity="center">
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button" />
+            android:text="Revenues: "
+            android:id="@+id/textView9"
+            android:textIsSelectable="true"
+            android:textSize="20dp"
+            android:typeface="monospace"
+            android:password="false"
+            android:layout_gravity="center_horizontal"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="$xxx,xxx.xx"
+            android:id="@+id/revenues"
+            android:textIsSelectable="true"
+            android:textSize="25dp"
+            android:typeface="monospace"
+            android:password="false"
+            android:gravity="center_vertical|right"
+            android:numeric="decimal"
+            android:layout_gravity="center_horizontal"
+            android:paddingRight="10dp" />
     </LinearLayout>
-</RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#903a3a"
+        android:layout_margin="20dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cost of Items Sold: "
+            android:id="@+id/textView12"
+            android:textIsSelectable="true"
+            android:textSize="18dp"
+            android:typeface="monospace"
+            android:password="false"
+            android:layout_gravity="center_horizontal"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/costs"
+            android:textIsSelectable="true"
+            android:textSize="25dp"
+            android:typeface="monospace"
+            android:password="false"
+            android:gravity="center_vertical|right"
+            android:numeric="decimal"
+            android:text="$xx,xxx.xx"
+            android:layout_gravity="center_horizontal"
+            android:paddingRight="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#903a3a"
+        android:layout_margin="20dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Current Inventory Costs:"
+            android:id="@+id/textView8"
+            android:textIsSelectable="false"
+            android:textSize="18dp"
+            android:typeface="monospace"
+            android:password="false"
+            android:layout_gravity="center_horizontal"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/current_costs"
+            android:textIsSelectable="true"
+            android:textSize="25dp"
+            android:typeface="monospace"
+            android:password="false"
+            android:gravity="center_vertical|right"
+            android:numeric="decimal"
+            android:text="$xx,xxx.xx"
+            android:layout_gravity="center_horizontal"
+            android:paddingRight="10dp" />
+    </LinearLayout>
+
+</LinearLayout>

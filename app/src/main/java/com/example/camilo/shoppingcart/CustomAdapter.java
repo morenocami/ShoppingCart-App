@@ -50,7 +50,7 @@ public class CustomAdapter extends BaseAdapter implements View.OnClickListener {
         return position;
     }
 
-    /********* Create a holder Class to contain inflated xml file elements *********/
+    /********* Create a holder Class to contain inflated xml filePath elements *********/
     public static class ViewHolder{
 
         private TextView text;
@@ -69,10 +69,10 @@ public class CustomAdapter extends BaseAdapter implements View.OnClickListener {
         if(convertView==null){
             holder = new ViewHolder();
 
-            /****** Inflate list_item.xml file for each row ( Defined below ) *******/
+            /****** Inflate list_item.xml filePath for each row ( Defined below ) *******/
             vi = inflater.inflate(R.layout.list_item, null);
 
-            /****** View Holder Object to contain list_item.xmlml file elements ******/
+            /****** View Holder Object to contain list_item.xmlml filePath elements ******/
 
             holder.text = (TextView) vi.findViewById(R.id.list_item_name);
             holder.price =(TextView)vi.findViewById(R.id.list_item_price);

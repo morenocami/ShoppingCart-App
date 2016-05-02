@@ -1,6 +1,5 @@
 package com.example.camilo.shoppingcart;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -21,14 +20,16 @@ import java.io.ObjectOutputStream;
 import java.io.OptionalDataException;
 import java.io.StreamCorruptedException;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Camilo on 4/18/2016.
  */
 public class LoginActivity extends AppCompatActivity{
 
-    public static final String USERS_FILE = "users";
+    private static String USERS = "users";
+
+    public static File filePath;
+    public static File file;
 
     private TextView username;
     private TextView password;
@@ -41,7 +42,8 @@ public class LoginActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
 
-        Session.getInstance().setFilesDir(this.getFilesDir());
+        filePath = getFilesDir();
+        file = new File(getFilesDir(), USERS);
 
         username = (TextView) findViewById(R.id.login_editText1);
         password = (TextView) findViewById(R.id.login_editText2);
@@ -63,10 +65,9 @@ public class LoginActivity extends AppCompatActivity{
         users = new ArrayList<>();
 
         try {
-            FileInputStream fis = new FileInputStream(new File(getFilesDir(),USERS_FILE));
+            FileInputStream fis = new FileInputStream(file);
             ObjectInputStream ois = new ObjectInputStream(fis);
             users = ((ArrayList<User>) ois.readObject());
-            return;
         }
         catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -141,21 +142,11 @@ public class LoginActivity extends AppCompatActivity{
 
                 //save new users list
                 try {
-                    FileOutputStream fos = new FileOutputStream(new File(getFilesDir(),USERS_FILE));
+                    FileOutputStream fos = new FileOutputStream(file);
                     ObjectOutputStream oos = new ObjectOutputStream(fos);
                     oos.writeObject(users);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                try {
-                    //saves vector to file
-                    FileOutputStream fos = openFileOutput(USERS_FILE, MODE_PRIVATE);
-                    ObjectOutputStream oos = new ObjectOutputStream(fos);
-                    oos.writeObject(users);
-                    oos.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -167,22 +158,21 @@ public class LoginActivity extends AppCompatActivity{
                 switchSeller.setChecked(false);
                 switchNewUser.setChecked(false);
             }
-            //login attempt; if username is found, check account type and then check password
+            //returning user, login attempt; if username is found, check account type and then check password
             // if password matches, perform customer login or pass switchSeller to next activity and go to appropriate browser
             else {
                 for (int x = 0; x < users.size(); x++) {
                     if (users.get(x).checkUsername(name)) {
-                        //check if switchSeller
+                        //check if seller, and login check
                         if(users.get(x).isSeller()&&isSeller){
-                            //check switchSeller password
                             if (users.get(x).checkPassword(password.getText().toString())) {
                                 matches = true;
                                 users.get(x).login();
                                 break;
                             }
                         }
+                        //login as customer
                         else if(!users.get(x).isSeller()&&!isSeller){
-                            //check customer password
                             if (users.get(x).checkPassword(password.getText().toString())) {
                                 matches = true;
                                 users.get(x).login();

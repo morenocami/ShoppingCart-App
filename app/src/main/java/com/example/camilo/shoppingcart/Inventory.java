@@ -1,7 +1,5 @@
 package com.example.camilo.shoppingcart;
 
-import android.content.Context;
-import android.support.v4.util.Pair;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,12 +12,13 @@ import java.io.OptionalDataException;
 import java.io.Serializable;
 import java.io.StreamCorruptedException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Created by Camilo on 4/29/2016.
  */
 public class Inventory extends ArrayList<Product> implements Serializable{
+
+    private static final long serialVersionUID = 315684651;
 
     public final static String SAMPLE_DESCRIPTION = "Lorem ipsum dolor sit amet, consectetur\n" +
             "        adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore\n" +
@@ -80,6 +79,7 @@ public class Inventory extends ArrayList<Product> implements Serializable{
     }
 
 
+    //////////////////
 //master functions
     public Product getCloneByName(String name){
         for(Product p : this){
@@ -89,6 +89,7 @@ public class Inventory extends ArrayList<Product> implements Serializable{
         }
         return null;
     }
+
     public int getQtyByName(String name){
         for(Product p : this){
             if(name.equals(p.getName())) {
@@ -97,6 +98,7 @@ public class Inventory extends ArrayList<Product> implements Serializable{
         }
         return 0;
     }
+
     public void deleteProduct(String name){
         for(Product p : this){
             if(name.equals(p.getName())) {
@@ -105,8 +107,9 @@ public class Inventory extends ArrayList<Product> implements Serializable{
             }
         }
     }
-    public void checkout(ArrayList<Pair<String,Integer>> items){
-        for(Pair pair : items){
+
+    public void checkout(ArrayList<SerializableStringPair<String,Integer>> items){
+        for(SerializableStringPair pair : items){
             for(Product p : this){
                 if(p.getName().equals(pair.first)) {
                     p.setQty(p.getQty() - (Integer)pair.second);
@@ -115,6 +118,7 @@ public class Inventory extends ArrayList<Product> implements Serializable{
         }
 
     }
+
     public void updateQty(String name, int newQuantity){
         for(Product p : this){
             if(p.getName().equals(name)) {

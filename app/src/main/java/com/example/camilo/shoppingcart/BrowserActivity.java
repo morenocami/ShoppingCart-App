@@ -42,8 +42,6 @@ public abstract class BrowserActivity extends AppCompatActivity {
         cartTotal=(TextView)findViewById(R.id.browser_cart_total);
         sellerAdder = (Button)findViewById(R.id.seller_add_product);
 
-        Session.getInstance().load();
-
         if(this instanceof SellerActivity) {
             sellerAdder.setOnClickListener(new View.OnClickListener() {
 
@@ -114,8 +112,8 @@ public abstract class BrowserActivity extends AppCompatActivity {
 
             listItem.setProductName(x.getName());
             listItem.setImageResource(x.getImageResource());
-            listItem.setPrice(df.format(x.getSellPrice()));
-            listItem.setCost(df.format(x.getCost()));
+            listItem.setPrice("$" + df.format(x.getSellPrice()));
+            listItem.setCost("$" + df.format(x.getCost()));
             listItem.setQty(x.getQty());
             listItem.setDescription(x.getDescription());
 
@@ -124,8 +122,7 @@ public abstract class BrowserActivity extends AppCompatActivity {
     }
 
     /*****************  This function used by adapter ****************/
-    public void onItemClick(int mPosition, boolean request)
-    {
+    public void onItemClick(int mPosition, boolean request)  {
         final ListItemModel item = listItems.get(mPosition);
 
         //a request is when the right button is pressed

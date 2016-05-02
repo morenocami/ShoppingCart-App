@@ -2,10 +2,13 @@ package com.example.camilo.shoppingcart;
 
 import java.io.Serializable;
 
+
 /**
  * Created by Camilo on 4/25/2016.
  */
 public abstract class User implements Serializable{
+
+    private static final long serialVersionUID = 315684651;
 
     public User(String username, String password, boolean isSeller){
         this.username=username;
@@ -17,19 +20,13 @@ public abstract class User implements Serializable{
         Session.getInstance().userLogin(this);
     }
 
-    public boolean checkUsername(String username){
-        return username.equals(this.username);
-    }
+    public boolean checkUsername(String username){return username.equals(this.username);}
 
-    public boolean checkPassword(String password){
-        return password.equals(this.password);
-    }
+    public boolean checkPassword(String password){return password.equals(this.password);}
 
     public boolean isSeller(){return isSeller;}
 
-    public String getUsername(){
-        return username;
-    }
+    public String getUsername(){return username;}
 
     private String username;
     private String password;

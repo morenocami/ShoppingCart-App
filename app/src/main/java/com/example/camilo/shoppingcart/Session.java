@@ -1,7 +1,5 @@
 package com.example.camilo.shoppingcart;
 
-import android.content.Context;
-import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 
 import java.io.File;
@@ -13,8 +11,10 @@ import java.util.Iterator;
  */
 public class Session extends AppCompatActivity{
 
+    private static String MASTER = "master";
     private Session(){
         master = new Inventory();
+        setFilepath(LoginActivity.filePath);
     }
 
     public static Session getInstance(){
@@ -22,7 +22,6 @@ public class Session extends AppCompatActivity{
             instance = new Session();
         return instance;
     }
-
 
 
 //customer functions
@@ -42,13 +41,16 @@ public class Session extends AppCompatActivity{
         return ((Customer)currentUser).getIterator();
     }
     public void checkout(){
-        ArrayList<Pair<String, Integer>> items = ((Customer) currentUser).checkout();
+        ArrayList<SerializableStringPair<String, Integer>> items = ((Customer) currentUser).checkout();
         master.checkout(items);
     }
-////////////////////////////
 
 
-    //seller functions
+
+//seller functions
+    public boolean isSeller(){
+        return currentUser.isSeller();
+    }
     public boolean createProduct(int resource, String name, double price, double cost, int qty, String description){
         //check for item uniqueness by name
         for(Product p: master){
@@ -67,7 +69,7 @@ public class Session extends AppCompatActivity{
     public void deleteProduct(String name){
         ((Seller)currentUser).removeFromInventory(name);
         master.deleteProduct(name);
-        master.saveMaster(file);
+        master.saveMaster(new File(filepath, MASTER));
     }
     public void updateProduct(String name, int newQuantity){
         ((Seller)currentUser).updateProduct(name, newQuantity);
@@ -82,17 +84,23 @@ public class Session extends AppCompatActivity{
     public String getSellerName(){
         return currentUser.getUsername();
     }
+    public double[] getStats(){
+        return ((Seller)currentUser).getStats();
+    }
 
 
-    //general functions
+//general functions
     public Iterator getMasterIterator(){
         return master.iterator();
     }
-    public void setFilesDir(File f){
-        file= new File(f,"master");
+    public void setFilepath(File f){
+        filepath = f;
+    }
+    public File getFilepath(){
+        return filepath;
     }
     public void load(){
-        master.loadMaster(file);
+        master.loadMaster(new File(filepath, MASTER));
         if(currentUser.isSeller()) {
             for (Product p : master) {
                 if (p.getSeller().equals(getSellerName())) {
@@ -102,18 +110,27 @@ public class Session extends AppCompatActivity{
         }
     }
     public void saveMaster(){
-        master.saveMaster(file);
+        master.saveMaster(new File(filepath, MASTER));
     }
     public void userLogin(User user){
         currentUser = user;
+        load();
+        if(currentUser.isSeller())
+            ((Seller)currentUser).updateStatistics();
+
     }
     public void userLogout(){
+        if(currentUser.isSeller())
+            ((Seller)currentUser).makeSaveState();
+//        currentUser.logout(((Seller)currentUser).getLastInventoryState(), currentUser.getUsername());
         currentUser=null;
         master =null;
         instance=null;
     }
 
-    private File file;
+
+
+    private File filepath;
     private User currentUser;
     private Inventory master;
     private static Session instance;

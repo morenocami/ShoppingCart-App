@@ -1,7 +1,6 @@
 package com.example.camilo.shoppingcart;
 
 
-import android.support.v4.util.Pair;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -10,6 +9,8 @@ import java.util.Iterator;
  * Created by Camilo on 4/28/2016.
  */
 public class Customer extends User {
+
+    private static final long serialVersionUID = 315684651;
 
     public Customer(String username, String password, boolean isSeller) {
         super(username, password, isSeller);
@@ -54,7 +55,6 @@ public class Customer extends User {
             }
         }
     }
-
     public double getCartTotal(){
         double sum=0;
         for (Product p : shoppingCart) {
@@ -62,23 +62,24 @@ public class Customer extends User {
         }
         return sum;
     }
-
     public int getCartSize(){
         int count=0;
         for(Product p : shoppingCart)
             count+=p.getQty();
         return count;
     }
-
-    public ArrayList<Pair<String,Integer>> checkout(){
-        ArrayList<Pair<String,Integer>> items = new ArrayList<>();
+    public ArrayList<SerializableStringPair<String,Integer>> checkout(){
+        ArrayList<SerializableStringPair<String,Integer>> items = new ArrayList<>();
 
         for(Product p : shoppingCart){
-            items.add(new Pair<>(p.getName(), p.getQty()));
+            items.add(new SerializableStringPair<>(p.getName(), p.getQty()));
         }
         shoppingCart.clear();
 
         return items;
     }
+
+
+
     private ArrayList<Product> shoppingCart;
 }
